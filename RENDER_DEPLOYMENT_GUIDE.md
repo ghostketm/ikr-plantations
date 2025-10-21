@@ -106,7 +106,7 @@ After deployment, you'll need to create a superuser:
 
 2. **Or temporarily add this to your build command** (remove after first deploy):
    ```
-   pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate && echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'admin123')" | python manage.py shell
+   pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate && echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('ikrADMIN', 'ghostketm@gmail.com', 'QWERTY123$%^&*()')" | python manage.py shell
    ```
 
 ## Step 4: Access Your Application
