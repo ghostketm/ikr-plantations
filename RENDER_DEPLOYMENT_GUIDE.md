@@ -49,7 +49,7 @@ Since Git is not installed locally, you'll need to:
    ```bash
    git init
    git add .
-   git commit -m "update to exclude sensitive data"
+   git commit -m "image and static files rendering"
    git branch -M main  # Renames the default branch to 'main'
    git remote add origin https://github.com/ghostketm/ikr-plantations.git
    git push -u origin main
