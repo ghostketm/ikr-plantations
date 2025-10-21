@@ -14,7 +14,7 @@ Since Git is not installed locally, you'll need to:
    ```bash
    git init
    git add .
-   git commit -m "commit ya kwanza - IKR Plantations Real Estate Project"
+   git commit -m "update to exclude sensitive data"
    git branch -M main  # Renames the default branch to 'main'
    git remote add origin https://github.com/ghostketm/ikr-plantations.git
    git push -u origin main
