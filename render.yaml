@@ -2,6 +2,7 @@ services:
   - type: web
     name: ikr-plantations
     runtime: python
+    plan: free
     buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
     startCommand: gunicorn ikr_project.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
@@ -26,3 +27,4 @@ databases:
   - name: ikr-db
     databaseName: ikr_plantations
     user: ikr_user
+    plan: free

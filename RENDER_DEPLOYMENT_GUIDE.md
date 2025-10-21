@@ -4,6 +4,41 @@
 - GitHub account
 - Render.com account (free tier available)
 
+## Free Tier Information
+
+Render offers free instances for web services, PostgreSQL databases, and Key Value instances. Free instances are perfect for testing, hobby projects, or previewing Render's platform but have important limitations.
+
+### Free Web Services
+- **Spinning down**: Services spin down after 15 minutes of inactivity, causing a delay (up to 1 minute) for the next request.
+- **Monthly usage limits**: 750 free instance hours per workspace. Exceeded hours suspend services until the next month.
+- **Bandwidth and pipeline**: Counts against monthly included allotments. Excess may require payment or suspend services.
+- **Limitations**:
+  - No scaling beyond a single instance
+  - No persistent disks
+  - No edge caching
+  - No one-off jobs
+  - No shell access via SSH or dashboard
+  - No private network traffic
+  - Cannot listen on reserved ports (18012, 18013, 19099)
+  - Cannot send outbound traffic on SMTP ports (25, 465, 587)
+
+### Free PostgreSQL Databases
+- **Single instance limit**: Only one free database per workspace.
+- **1 GB storage limit**: Fixed capacity.
+- **30-day expiration**: Databases expire 30 days after creation. Upgrade to paid within 14 days of expiration or lose data.
+- **Limitations**:
+  - No maintenance windows (may restart anytime)
+  - No backups
+
+### Free Key Value Instances
+- **Single instance limit**: Only one free instance per workspace.
+- **Ephemeral storage**: Data is lost on restarts.
+- **Limitations**:
+  - No maintenance windows (may restart anytime)
+  - Data lost on upgrades to paid plans
+
+**Note**: Free instances are not suitable for production applications. For production, upgrade to paid plans.
+
 ## Step 1: Push Code to GitHub
 
 Since Git is not installed locally, you'll need to:
