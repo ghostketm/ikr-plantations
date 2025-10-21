@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}IKR Realestate{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white py-24 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-silver/10 to-transparent"></div>
+    <div class="relative max-w-7xl mx-auto px-4 text-center">
+        <h1 class="text-6xl font-extrabold mb-6 bg-gradient-to-r from-silver to-gray-300 bg-clip-text text-transparent">Find Your Dream Home</h1>
+        <p class="text-xl mb-10 text-gray-300 max-w-3xl mx-auto leading-relaxed">Discover the perfect property with our extensive collection of luxury homes, apartments, and commercial spaces. Experience unparalleled elegance and sophistication.</p>
+        <a href="{% url 'listing_list' %}" class="bg-gradient-to-r from-silver to-gray-600 text-black px-10 py-4 rounded-full font-bold text-lg hover:from-gray-600 hover:to-silver transition-all duration-300 shadow-2xl transform hover:scale-105">Browse Exclusive Listings</a>
+    </div>
+</section>
+
+<!-- Featured Listings -->
+<section class="py-24 bg-gray-900 border-t border-gray-700">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-100 border-b-2 border-gray-600 pb-4 mb-4 md:mb-0">Featured Luxury Properties</h2>
+            <!-- Categories Dropdown beside title -->
+            <div class="relative">
+                <select id="category-select" class="bg-primary-800 text-gray-100 px-4 py-2 rounded-md border border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                    <option value="">All Categories</option>
+                    {% for category in categories %}
+                    <option value="{% url 'listing_list' %}?category={{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 justify-items-center">
+            {% for listing in featured_listings %}
+            {% include 'listings/partials/_listing_card.html' %}
+            {% endfor %}
+        </div>
+        <div class="text-center mt-16 border-t border-gray-600 pt-8">
+            <a href="{% url 'listing_list' %}" class="bg-primary-600 text-white px-10 py-4 rounded-full font-bold hover:bg-primary-700 transition-all duration-300 shadow-lg">View All Premium Listings</a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="bg-primary-800 text-white py-20 relative border-t border-gray-600">
+    <div class="relative max-w-7xl mx-auto px-4 text-center">
+        <h2 class="text-4xl font-bold mb-6 border-b-2 border-gray-500 pb-4">Ready to Find Your Perfect Home?</h2>
+        <p class="text-xl mb-10 text-gray-100 max-w-2xl mx-auto">Join thousands of discerning clients who found their dream property with our exclusive network.</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-6 border-t border-gray-500 pt-8">
+            <a href="{% url 'listing_list' %}" class="bg-gray-100 text-primary-800 px-8 py-4 rounded-full font-bold hover:bg-white transition-all duration-300 shadow-lg">Browse Properties</a>
+            <a href="{% url 'agent_list' %}" class="border-2 border-white text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-primary-800 transition-all duration-300">Find an Agent</a>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing Section -->
+<section class="py-20 bg-gray-800 border-t border-gray-600">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+        <h2 class="text-4xl font-bold mb-16 text-gray-100 border-b-2 border-gray-500 pb-4">Website Pricing</h2>
+        <p class="text-gray-300 font-bold mb-16 text-gray-100 pb-4">Complete Real Estate Platform</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 justify-items-center">
+            <div class="bg-primary-800 p-8 rounded-2xl shadow-lg border-2 border-gray-600 hover:shadow-xl transition-all duration-300 w-full max-w-md">
+                <h3 class="text-2xl font-bold mb-4 text-gray-100 border-b border-gray-500 pb-2">One-Time Sale</h3>
+                <p class="text-4xl font-extrabold text-green-400 mb-6">$ {{ 125670|intcomma }}</p>
+                <p class="text-gray-300">Complete website with database and all features.</p>
+            </div>
+            <div class="bg-primary-800 p-8 rounded-2xl shadow-lg border-2 border-gray-600 hover:shadow-xl transition-all duration-300 w-full max-w-md">
+                <h3 class="text-2xl font-bold mb-4 text-gray-100 border-b border-gray-500 pb-2">Annual Support & Maintenance</h3>
+                <p class="text-4xl font-extrabold text-green-400 mb-6">$ {{ 8133|intcomma }}</p>
+                <p class="text-gray-300">Per year for ongoing support and updates.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+<script>
+    // Category dropdown functionality
+    document.getElementById('category-select').addEventListener('change', function() {
+        const selectedValue = this.value;
+        if (selectedValue) {
+            window.location.href = selectedValue;
+        }
+    });
+</script>

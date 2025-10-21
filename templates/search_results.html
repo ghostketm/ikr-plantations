@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Search Results for "{{ query }}" - IKR Plantations{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8 text-gray-100">Search Results for "{{ query }}"</h1>
+
+    <!-- Listings Section -->
+    {% if listings %}
+    <section class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-gray-100">Listings</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+            {% for listing in listings %}
+            {% include 'listings/partials/_listing_card.html' %}
+            {% endfor %}
+        </div>
+        <div class="mt-6 text-center">
+            <a href="{% url 'listing_list' %}?query={{ query }}" class="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition duration-300">View All Listings</a>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Agents Section -->
+    {% if agents %}
+    <section class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-gray-100">Agents</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
+            {% for agent in agents %}
+            <div class="bg-primary-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:bg-primary-700 transition duration-300 text-center w-full max-w-xs">
+                <img src="{% if agent.user.profile.avatar %}{{ agent.user.profile.avatar.url }}{% else %}{% static 'images/avatar-placeholder.jpg' %}{% endif %}" alt="{{ agent.user.get_full_name }}" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2"><a href="{% url 'agent_detail' agent.id %}" class="text-white hover:text-primary-200 block">{{ agent.user.get_full_name }}</a></h3>
+                    <p class="text-gray-300 mb-2">{{ agent.agency_name }}</p>
+                    <p class="text-sm text-gray-400 mb-2">{{ agent.years_of_experience }} years experience</p>
+                    <div class="flex items-center justify-center mb-4">
+                        <span class="text-yellow-400 text-lg">★</span>
+                        <span class="ml-1 font-semibold text-gray-100">{{ agent.rating|floatformat:1 }}</span>
+                    </div>
+                    <div class="text-sm text-gray-400">
+                        <p>{{ agent.total_listings }} listings</p>
+                    </div>
+                    <div class="mt-4">
+                        <a href="mailto:{{ agent.get_contact_email }}" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition duration-300 inline-block text-sm">
+                            <i class="fas fa-envelope mr-2"></i>Contact Agent
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="mt-6 text-center">
+            <a href="{% url 'agent_list' %}?query={{ query }}" class="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition duration-300">View All Agents</a>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Categories Section -->
+    {% if categories %}
+    <section class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-gray-100">Categories</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 justify-items-center">
+            {% for category in categories %}
+            <a href="{% url 'listing_list' %}?category={{ category.id }}" class="bg-primary-800 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 text-center border-2 border-gray-600 hover:border-primary-500 transform hover:scale-105 w-full max-w-xs">
+                <div class="text-3xl mb-3">{{ category.icon|default:'🏠' }}</div>
+                <h3 class="font-bold text-gray-100">{{ category.name }}</h3>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- No Results -->
+    {% if not listings and not agents and not categories %}
+    <div class="text-center py-12">
+        <p class="text-gray-400 text-lg">No results found for "{{ query }}". Try a different search term.</p>
+        <a href="{% url 'home' %}" class="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition duration-300 mt-4 inline-block">Back to Home</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

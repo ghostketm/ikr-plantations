@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Property Listings - IKR Plantations{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Filters Sidebar -->
+        <div class="lg:w-1/4">
+            <div class="bg-primary-800 p-6 rounded-lg shadow-sm">
+                <h3 class="text-lg font-semibold mb-4 text-gray-100">Filter Properties</h3>
+                <form method="get" class="space-y-4">
+                    <!-- Search Bar -->
+                    <div class="mb-4">
+                        <label for="id_query" class="block text-sm font-medium text-gray-300 mb-1">Search</label>
+                        {{ filter_form.query }}
+                    </div>
+                    <!-- Category Filter -->
+                    <div class="mb-4">
+                        <label for="id_category" class="block text-sm font-medium text-gray-300 mb-1">Category</label>
+                        {{ filter_form.category }}
+                    </div>
+                    <!-- Location Filter -->
+                    <div class="mb-4">
+                        <label for="id_location" class="block text-sm font-medium text-gray-300 mb-1">Location</label>
+                        {{ filter_form.location }}
+                    </div>
+                    <!-- Property Type Filter -->
+                    <div class="mb-4">
+                        <label for="id_property_type" class="block text-sm font-medium text-gray-300 mb-1">Property Type</label>
+                        {{ filter_form.property_type }}
+                    </div>
+                    <!-- Min Price Filter -->
+                    <div class="mb-4">
+                        <label for="id_min_price" class="block text-sm font-medium text-gray-300 mb-1">Min Price</label>
+                        {{ filter_form.min_price }}
+                    </div>
+                    <!-- Max Price Filter -->
+                    <div class="mb-4">
+                        <label for="id_max_price" class="block text-sm font-medium text-gray-300 mb-1">Max Price</label>
+                        {{ filter_form.max_price }}
+                    </div>
+                    <!-- Bedrooms Filter -->
+                    <div class="mb-4">
+                        <label for="id_bedrooms" class="block text-sm font-medium text-gray-300 mb-1">Min Bedrooms</label>
+                        {{ filter_form.bedrooms }}
+                    </div>
+                    <!-- Bathrooms Filter -->
+                    <div class="mb-4">
+                        <label for="id_bathrooms" class="block text-sm font-medium text-gray-300 mb-1">Min Bathrooms</label>
+                        {{ filter_form.bathrooms }}
+                    </div>
+                    <button type="submit" class="w-full bg-primary-600 text-white py-2 px-4 rounded-lg hover:bg-primary-700 transition duration-300">Apply Filters</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Listings Grid -->
+        <div class="lg:w-3/4">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-3xl font-bold">Property Listings</h1>
+                {% if user.is_authenticated and user.agent_profile %}
+                <a href="{% url 'listing_create' %}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300">Add New Listing</a>
+                {% endif %}
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center">
+                {% for listing in page_obj %}
+                {% include 'listings/partials/_listing_card.html' %}
+                {% empty %}
+                <div class="col-span-full text-center py-12">
+                    <p class="text-gray-400 text-lg">No listings found matching your criteria.</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+            <div class="mt-8 flex justify-center">
+                <nav class="flex items-center space-x-1">
+                    {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50">Previous</a>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <span class="px-3 py-2 rounded-md text-sm font-medium text-white bg-blue-600 border border-blue-600">{{ num }}</span>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a href="?page={{ num }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50">{{ num }}</a>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50">Next</a>
+                    {% endif %}
+                </nav>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

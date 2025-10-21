@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sign Up - IKR Plantations{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <h2 class="mt-6 text-center text-4xl font-extrabold text-silver">Join Our Exclusive Network</h2>
+            <p class="mt-2 text-center text-sm text-gray-400">
+                Create your account and unlock premium real estate opportunities
+            </p>
+        </div>
+        <div class="bg-gray-800 rounded-2xl shadow-2xl p-8 border border-silver/20">
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+
+                {% for field in form %}
+                <div>
+                    <label for="{{ field.id_for_label }}" class="block text-sm font-bold text-silver mb-2">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                    <p class="text-red-400 text-sm mt-2">{{ field.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <div>
+                    <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-full text-black bg-gradient-to-r from-silver to-gray-600 hover:from-gray-600 hover:to-silver focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-silver transition-all duration-300 shadow-lg transform hover:scale-105">
+                        <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                            <svg class="h-5 w-5 text-black group-hover:text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
+                            </svg>
+                        </span>
+                        Create Account
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-6 text-center">
+                <p class="text-gray-400">Already a member? <a href="{% url 'account_login' %}" class="font-bold text-silver hover:text-white transition duration-300">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% load static %}
+<footer class="bg-black text-gray-100 py-12 border-t border-silver">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-xl font-bold mb-4 text-silver">IKR Plantations</h3>
+                <p class="text-gray-400 leading-relaxed">Your trusted partner in finding the perfect property. Luxury redefined.</p>
+                <img src="{% static 'images/logo.png' %}" alt="IKR Plantations" class="w-24 mt-4 opacity-20">
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4 text-silver">Sitemap</h4>
+                <ul class="space-y-2">
+                    <li><a href="{% url 'home' %}" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+                    <li><a href="{% url 'listing_list' %}" class="text-gray-400 hover:text-white transition duration-300">Property Listings</a></li>
+                    <li><a href="{% url 'agent_list' %}" class="text-gray-400 hover:text-white transition duration-300">Real Estate Agents</a></li>
+                    <li><a href="{% url 'account_login' %}" class="text-gray-400 hover:text-white transition duration-300">Login</a></li>
+                    <li><a href="{% url 'account_signup' %}" class="text-gray-400 hover:text-white transition duration-300">Sign Up</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4 text-silver">Services</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Property Sales</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Property Rentals</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Property Management</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Investment Consulting</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4 text-silver">Contact & Social</h4>
+                <p class="text-gray-400 mb-2">Email: info@ikrplantations.com</p>
+                <p class="text-gray-400 mb-4">Phone: +1 (555) 123-4567</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-silver transition duration-300"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-silver transition duration-300"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-silver transition duration-300"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-silver transition duration-300"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-700 mt-12 pt-8 text-center">
+            <p class="text-gray-500">&copy; 2025 IKR Plantations. All rights reserved. | Privacy Policy | Terms of Service</p>
+        </div>
+    </div>
+</footer>

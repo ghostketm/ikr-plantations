@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}{{ agent.user.get_full_name }} - Real Estate Agent{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <!-- Agent Profile -->
+    <div class="bg-primary-800 rounded-lg shadow-sm p-8 mb-8">
+        <div class="flex flex-col md:flex-row items-center md:items-start">
+            <img src="{% if agent.user.profile.avatar %}{{ agent.user.profile.avatar.url }}{% else %}{% static 'images/avatar-placeholder.jpg' %}{% endif %}" alt="{{ agent.user.get_full_name }}" class="w-32 h-32 rounded-full object-cover mb-4 md:mb-0 md:mr-8">
+            <div class="text-center md:text-left flex-grow">
+                <div class="flex flex-col md:flex-row justify-between md:items-start">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-100 mb-2">{{ agent.user.get_full_name }}</h1>
+                        <p class="text-gray-300 text-lg mb-2">{{ agent.agency_name }}</p>
+                    </div>
+                    {% if request.user == agent.user %}
+                    <a href="{% url 'agent_profile_edit' %}" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition duration-300 inline-block text-sm">
+                        Edit Profile
+                    </a>
+                    {% endif %}
+                </div>
+                <p class="text-gray-300 mb-4">{{ agent.description }}</p>
+                <div class="flex flex-col md:flex-row md:items-center md:space-x-6 space-y-2 md:space-y-0">
+                    <div class="flex items-center">
+                        <span class="text-yellow-400 text-lg">★</span>
+                        <span class="ml-1 font-semibold text-gray-100">{{ agent.rating|floatformat:1 }}</span>
+                        <span class="ml-2 text-gray-400">(0 reviews)</span>
+                    </div>
+                    <div class="text-gray-300">
+                        <span class="font-semibold text-gray-100">{{ agent.years_of_experience }}</span> years experience
+                    </div>
+                    <div class="text-gray-300">
+                        <span class="font-semibold text-gray-100">{{ listings|length }}</span> active listings
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Agent Listings -->
+    <div>
+        <h2 class="text-2xl font-bold mb-6 text-gray-100">Properties by {{ agent.user.get_full_name }}</h2>
+        {% if listings %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+            {% for listing in listings %}
+            {% include 'listings/partials/_listing_card.html' %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <p class="text-gray-400 text-lg">No active listings at the moment.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Contact Section -->
+    <div class="bg-primary-800 rounded-lg p-8 mt-8 shadow-md">
+        <h3 class="text-2xl font-bold text-center mb-4 text-gray-100">Get in Touch</h3>
+        <p class="text-center text-gray-300 mb-6">Ready to work with {{ agent.user.get_full_name }}? Contact them directly.</p>
+        <div class="text-center">
+            <a href="mailto:{{ agent.get_contact_email }}" class="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition duration-300 inline-block font-semibold">
+                <i class="fas fa-envelope mr-2"></i>Email Agent
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

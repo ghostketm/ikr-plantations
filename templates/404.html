@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Page Not Found - IKR Plantations{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="display-1 text-danger">404</h1>
+            <h2>The Dream Property Vanished!</h2>
+            <p class="lead">Looks like that luxury listing slipped into a parallel dimension where houses float on clouds of mortgage approvals. Or maybe you took a wrong turn at the virtual open house.</p>
+            <p class="text-muted">In real estate, the only thing more elusive than a parking spot in the city is the page you're seeking!</p>
+            <a href="{% url 'home' %}" class="btn btn-primary btn-lg">Back to Home - Find Real Deals</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

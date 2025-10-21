@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}{{ listing.title }} - IKR Plantations{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Main Content -->
+        <div class="lg:col-span-2">
+            <!-- Image Gallery -->
+            <div class="mb-8">
+                {% if listing.images.all %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for image in listing.images.all %}
+                    <img src="{{ image.image.url }}" alt="{{ listing.title }}" class="w-full h-64 object-cover rounded-lg">
+                    {% endfor %}
+                </div>
+                {% else %}
+                <img src="{% static 'images/placeholder.jpg' %}" alt="{{ listing.title }}" class="w-full h-96 object-cover rounded-lg">
+                {% endif %}
+            </div>
+
+            <!-- Listing Details -->
+            <div class="bg-primary-800 p-6 rounded-lg shadow-md mb-8">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-100 mb-2">{{ listing.title }}</h1>
+                        <p class="text-gray-300 text-lg">{{ listing.location }}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-3xl font-bold text-green-400">$ {{ listing.price|intcomma }}</p>
+                        {% if listing.is_featured %}
+                        <span class="bg-yellow-500 text-yellow-900 px-2 py-1 rounded-full text-xs font-semibold">Featured</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div class="text-center">
+                        <p class="text-2xl font-semibold text-gray-100">{{ listing.bedrooms }}</p>
+                        <p class="text-gray-300">Bedrooms</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-2xl font-semibold text-gray-100">{{ listing.bathrooms }}</p>
+                        <p class="text-gray-300">Bathrooms</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-2xl font-semibold text-gray-100">{{ listing.square_feet }}</p>
+                        <p class="text-gray-300">Sq Ft</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-2xl font-semibold text-gray-100">{{ listing.garage_spaces }}</p>
+                        <p class="text-gray-300">Garage</p>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="text-xl font-semibold mb-3 text-gray-100">Description</h3>
+                    <p class="text-gray-300 leading-relaxed">{{ listing.description }}</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h4 class="font-semibold mb-2 text-gray-100">Property Details</h4>
+                        <ul class="space-y-1 text-gray-300">
+                            <li>Property Type: {{ listing.get_property_type_display }}</li>
+                            <li>Category: {{ listing.category.name }}</li>
+                            <li>Year Built: {{ listing.year_built }}</li>
+                            <li>Lot Size: {{ listing.lot_size }} acres</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-2 text-gray-100">Amenities</h4>
+                        <div class="flex flex-wrap gap-2">
+                            {% for amenity in listing.amenities.all %}
+                            <span class="bg-primary-700 px-3 py-1 rounded-full text-sm text-gray-100">{{ amenity.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Listings -->
+            {% if related_listings %}
+            <div class="bg-primary-800 p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold mb-4 text-gray-100">Similar Properties</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for related_listing in related_listings %}
+                    <div class="bg-primary-700 border border-gray-600 rounded-lg overflow-hidden hover:shadow-xl hover:bg-primary-600 transition duration-300">
+                        <img src="{% if related_listing.images.first %}{{ related_listing.images.first.image.url }}{% else %}{% static 'images/placeholder.jpg' %}{% endif %}" alt="{{ related_listing.title }}" class="w-full h-32 object-cover">
+                        <div class="p-4">
+                            <h4 class="font-semibold mb-1"><a href="{% url 'listing_detail' related_listing.slug %}" class="text-gray-100 hover:text-primary-200">{{ related_listing.title }}</a></h4>
+                            <p class="text-gray-300 text-sm mb-1">{{ related_listing.location }}</p>
+                            <p class="text-green-400 font-semibold">$ {{ related_listing.price|intcomma }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar -->
+        <div class="lg:col-span-1">
+            <!-- Agent Info -->
+            <div class="bg-primary-800 p-6 rounded-lg shadow-md mb-6">
+                <h3 class="text-lg font-semibold mb-4 text-gray-100">Listed by</h3>
+                <div class="text-center">
+                    <img src="{% if listing.agent.profile.avatar %}{{ listing.agent.profile.avatar.url }}{% else %}{% static 'images/avatar-placeholder.jpg' %}{% endif %}" alt="{{ listing.agent.get_full_name }}" class="w-20 h-20 rounded-full mx-auto mb-4 object-cover">
+                    <h4 class="font-semibold text-gray-100">{{ listing.agent.get_full_name }}</h4>
+                    <p class="text-gray-300 text-sm mb-2">{{ listing.agent.agent_profile.agency_name }}</p>
+                    <p class="text-sm text-gray-400 mb-4">{{ listing.agent.agent_profile.experience_years }} years experience</p>
+                    <div class="flex items-center justify-center mb-4">
+                        <span class="text-yellow-400">★</span>
+                        <span class="ml-1 text-gray-100">{{ listing.agent.agent_profile.rating|floatformat:1 }}</span>
+                    </div>
+                    <a href="{% url 'agent_detail' listing.agent.id %}" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition duration-300 inline-block">View Agent Profile</a>
+                </div>
+            </div>
+
+            <!-- Inquiry Form -->
+            {% if user.is_authenticated %}
+            <div class="bg-primary-800 p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold mb-4 text-gray-100">Send Inquiry</h3>
+                <form method="post" action="{% url 'inquiry_create' listing.slug %}">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="{{ form.subject.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-1">Subject</label>
+                        {{ form.subject }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="{{ form.message.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-1">Message</label>
+                        {{ form.message }}
+                    </div>
+                    <button type="submit" class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300">Send Inquiry</button>
+                </form>
+            </div>
+            {% else %}
+            <div class="bg-primary-800 p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold mb-4 text-gray-100">Send Inquiry</h3>
+                <p class="text-gray-300 mb-4">Please <a href="{% url 'account_login' %}" class="text-primary-200 hover:text-primary-100">login</a> to send an inquiry.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

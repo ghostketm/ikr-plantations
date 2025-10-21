@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Server Error - IKR Plantations{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="display-1 text-warning">500</h1>
+            <h2>Oops! The Market Crashed!</h2>
+            <p class="lead">Our server just experienced a real estate bubble burst – everything's upside down like a flipped floor plan. Don't worry, our agents are already negotiating with the bits and bytes to get things back on track.</p>
+            <p class="text-muted">Punchline: In the world of web realty, even servers need a good escrow to avoid these internal meltdowns!</p>
+            <a href="{% url 'home' %}" class="btn btn-primary btn-lg">Back to Home - Stable Listings Await</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

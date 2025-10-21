@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Inquiry for {{ listing.title }} - IKR Plantations{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Inquiry for {{ listing.title }}</h1>
+
+    <div class="bg-gray-800 rounded-lg shadow-md p-6">
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold mb-4 text-gray-100">Contact Information</h2>
+                <p class="text-gray-300 mb-4">
+                    You're inquiring about: <strong class="text-gray-100">{{ listing.title }}</strong><br>
+                    Listed by: {{ listing.agent.get_full_name }}<br>
+                    Price: ${{ listing.price|floatformat:0|intcomma }}
+                </p>
+            </div>
+
+            <div class="space-y-6">
+                <div>
+                    <label for="{{ form.subject.id_for_label }}" class="block text-sm font-medium text-gray-200 mb-2">Subject *</label>
+                    {{ form.subject }}
+                    {% if form.subject.errors %}
+                    <p class="text-red-400 text-sm mt-1">{{ form.subject.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label for="{{ form.message.id_for_label }}" class="block text-sm font-medium text-gray-200 mb-2">Message *</label>
+                    {{ form.message }}
+                    {% if form.message.errors %}
+                    <p class="text-red-400 text-sm mt-1">{{ form.message.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <button type="submit" class="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition duration-300">
+                    Send Inquiry
+                </button>
+                <a href="{% url 'listing_detail' listing.slug %}" class="ml-4 text-gray-300 hover:text-gray-100">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

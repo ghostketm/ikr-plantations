@@ -1,0 +1,90 @@
+from creating the venv, to the entire project structure, to installing all the django libraries, the project and apps to migrations and superuser and finally running server to landing page, admin panel completely create the codes, files and folders required in "ikr_project/
+├── .env                  # Store environment variables here (SECRET_KEY, DB_URL, etc.)
+├── .env.example          # Example environment file
+├── .gitignore            # To ignore unnecessary files
+├── README.md
+├── requirements.txt
+├── manage.py
+├── Dockerfile            ├── docker-compose.yml    │
+├── ikr_project/      # Core project configuration package
+│   ├── __init__.py
+│   ├── settings/         │   │   ├── __init__.py
+│   │   ├── base.py       # Base settings common to all environments
+│   │   ├── development.py # Settings for local development
+│   │   └── production.py  # Settings for live deployment
+│   ├── urls.py           # Project-level URL routing
+│   ├── wsgi.py
+│   └── asgi.py
+│
+├── apps/                 # Application-specific code
+│   ├── users/            │   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── forms.py
+│   │   ├── managers.py   │   │   ├── models.py     # Custom User model, Profile model
+│   │   ├── urls.py
+│   │   ├── views.py
+│   │   └── tests.py      │   │
+│   ├── agents/           │   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py     # AgentProfile model linked to a User
+│   │   ├── urls.py
+│   │   ├── views.py
+│   │   └── tests.py
+│   │
+│   ├── listings/         │   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py     # Listing, Category, Location, Amenity, ListingImage models
+│   │   ├── forms.py      # Listing creation/edit forms, Search/Filter form
+│   │   ├── filters.py    │   │   ├── urls.py
+│   │   ├── views.py
+│   │   └── tests.py
+│   │
+│   ├── inquiries/        │   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py     # Inquiry model with foreign key to Listing and User
+│   │   ├── forms.py
+│   │   ├── urls.py
+│   │   ├── views.py
+│   │   └── tests.py
+│   │
+│   └── pages/            │       ├── __init__.py
+│       ├── apps.py
+│       ├── urls.py
+│       ├── views.py
+│       └── tests.py
+│
+├── static/               │   ├── css/
+│   │   └── main.css
+│   ├── js/
+│   │   └── main.js
+│   ├── images/
+│   │   ├── logo.png
+│   │   └── favicon.ico
+│   └── scss/             │       └── styles.scss
+│
+├── templates/
+│   ├── base.html
+│   ├── home.html         │   │
+│   ├── partials/         │   │   ├── _navbar.html
+│   │   ├── _footer.html
+│   │   └── _alerts.html  # For displaying messages
+│   │
+│   ├── users/            │   │   ├── login.html
+│   │   ├── signup.html
+│   │   ├── profile.html
+│   │   └── password_reset.html
+│   │
+│   ├── agents/
+│   │   ├── agent_list.html
+│   │   └── agent_detail.html
+│   │
+│   └── listings/         │       ├── listing_list.html # Search results and category views
+│       ├── listing_detail.html
+│       └── partials/
+│           └── _listing_card.html # Reusable card for a single listing
+│#####ikr MAin links####**##DELETE
+└── media/                # For user-uploaded content (e.g., property images)"

@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Real Estate Agents - IKR Plantations{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Filters Sidebar -->
+        <div class="lg:w-1/4">
+            <div class="bg-primary-800 p-6 rounded-lg shadow-sm">
+                <h3 class="text-lg font-semibold mb-4 text-gray-100">Filter Agents</h3>
+                <form method="get" class="space-y-4">
+                    <!-- Search Bar -->
+                    <div class="mb-4">
+                        <label for="id_query" class="block text-sm font-medium text-gray-300 mb-1">Search</label>
+                        {{ filter_form.query }}
+                    </div>
+                    <!-- Agency Name Filter -->
+                    <div class="mb-4">
+                        <label for="id_agency_name" class="block text-sm font-medium text-gray-300 mb-1">Agency Name</label>
+                        {{ filter_form.agency_name }}
+                    </div>
+                    <!-- Specialization Filter -->
+                    <div class="mb-4">
+                        <label for="id_specialization" class="block text-sm font-medium text-gray-300 mb-1">Specialization</label>
+                        {{ filter_form.specialization }}
+                    </div>
+                    <!-- Min Rating Filter -->
+                    <div class="mb-4">
+                        <label for="id_min_rating" class="block text-sm font-medium text-gray-300 mb-1">Min Rating</label>
+                        {{ filter_form.min_rating }}
+                    </div>
+                    <!-- Max Rating Filter -->
+                    <div class="mb-4">
+                        <label for="id_max_rating" class="block text-sm font-medium text-gray-300 mb-1">Max Rating</label>
+                        {{ filter_form.max_rating }}
+                    </div>
+                    <!-- Min Experience Filter -->
+                    <div class="mb-4">
+                        <label for="id_min_experience" class="block text-sm font-medium text-gray-300 mb-1">Min Experience (Years)</label>
+                        {{ filter_form.min_experience }}
+                    </div>
+                    <!-- Max Experience Filter -->
+                    <div class="mb-4">
+                        <label for="id_max_experience" class="block text-sm font-medium text-gray-300 mb-1">Max Experience (Years)</label>
+                        {{ filter_form.max_experience }}
+                    </div>
+                    <button type="submit" class="w-full bg-primary-600 text-white py-2 px-4 rounded-lg hover:bg-primary-700 transition duration-300">Apply Filters</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Agents Grid -->
+        <div class="lg:w-3/4">
+            <h1 class="text-3xl font-bold mb-8 text-gray-100">Our Real Estate Agents</h1>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
+                {% for agent in page_obj %}
+                <div class="bg-primary-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:bg-primary-700 transition duration-300 text-center w-full max-w-xs">
+                    <img src="{% if agent.user.profile.avatar %}{{ agent.user.profile.avatar.url }}{% else %}{% static 'images/avatar-placeholder.jpg' %}{% endif %}" alt="{{ agent.user.get_full_name }}" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2"><a href="{% url 'agent_detail' agent.id %}" class="text-white hover:text-primary-200 block">{{ agent.user.get_full_name }}</a></h3>
+                        <p class="text-gray-300 mb-2">{{ agent.agency_name }}</p>
+                        <p class="text-sm text-gray-400 mb-2">{{ agent.years_of_experience }} years experience</p>
+                        <div class="flex items-center justify-center mb-4">
+                            <span class="text-yellow-400 text-lg">★</span>
+                            <span class="ml-1 font-semibold text-gray-100">{{ agent.rating|floatformat:1 }}</span>
+                        </div>
+                        <div class="text-sm text-gray-400">
+                            <p>{{ agent.total_listings }} listings</p>
+                        </div>
+                        <div class="mt-4">
+                            <a href="mailto:{{ agent.get_contact_email }}" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition duration-300 inline-block text-sm">
+                                <i class="fas fa-envelope mr-2"></i>Contact Agent
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-span-full text-center py-12">
+                    <p class="text-gray-400 text-lg">No agents found matching your criteria.</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+            <div class="mt-8 flex justify-center">
+                <nav class="flex items-center space-x-1">
+                    {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50">Previous</a>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <span class="px-3 py-2 rounded-md text-sm font-medium text-white bg-blue-600 border border-blue-600">{{ num }}</span>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a href="?page={{ num }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50">{{ num }}</a>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50">Next</a>
+                    {% endif %}
+                </nav>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

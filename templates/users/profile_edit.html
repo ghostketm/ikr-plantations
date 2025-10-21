@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile - IKR Plantations{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8 text-gray-100">Edit Profile</h1>
+
+    <div class="bg-primary-800 rounded-lg shadow-md p-6">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Personal Information -->
+                <div>
+                    <h2 class="text-xl font-semibold mb-4 text-gray-100">Personal Information</h2>
+
+                    <div class="mb-4">
+                        <label for="{{ form.first_name.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-1">First Name</label>
+                        {{ form.first_name }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="{{ form.last_name.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-1">Last Name</label>
+                        {{ form.last_name }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-1">Email</label>
+                        {{ form.email }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="{{ form.phone_number.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-1">Phone</label>
+                        {{ form.phone_number }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="{{ form.bio.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-1">Bio</label>
+                        {{ form.bio }}
+                    </div>
+                </div>
+
+                <!-- Address and Profile Picture -->
+                <div>
+                    <h2 class="text-xl font-semibold mb-4 text-gray-100">Address</h2>
+
+                    <div class="mb-4">
+                        <label for="{{ form.address.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-1">Address</label>
+                        {{ form.address }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="{{ form.city.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-1">City</label>
+                        {{ form.city }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="{{ form.state.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-1">State</label>
+                        {{ form.state }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="{{ form.country.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-1">Country</label>
+                        {{ form.country }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="{{ form.zip_code.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-1">Zip Code</label>
+                        {{ form.zip_code }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="{{ form.avatar.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-1">Profile Picture</label>
+                        {{ form.avatar }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 flex space-x-4">
+                <button type="submit" class="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition duration-300 cursor-pointer">Update Profile</button>
+                <a href="{% url 'profile' %}" class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition duration-300">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

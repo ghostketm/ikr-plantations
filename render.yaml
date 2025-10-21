@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: ikr-plantations
+    runtime: python3
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: gunicorn ikr_project.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: ikr_project.settings.production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: false
+      - key: DATABASE_URL
+        fromDatabase:
+          type: postgresql
+          name: ikr-db
+          property: connectionString
+      - key: ALLOWED_HOSTS
+        fromService:
+          type: web
+          name: ikr-plantations
+          property: host
+
+databases:
+  - name: ikr-db
+    databaseName: ikr_plantations
+    user: ikr_user

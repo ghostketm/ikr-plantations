@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Profile - IKR Plantations{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-100">My Profile</h1>
+        <a href="{% url 'profile_edit' %}" class="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition duration-300">Edit Profile</a>
+    </div>
+
+    <div class="bg-primary-800 rounded-lg shadow-md p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Personal Information -->
+            <div>
+                <h2 class="text-xl font-semibold mb-4 text-gray-100">Personal Information</h2>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-300 mb-1">First Name</label>
+                    <p class="text-gray-100">{{ user.first_name|default:"Not provided" }}</p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Last Name</label>
+                    <p class="text-gray-100">{{ user.last_name|default:"Not provided" }}</p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Email</label>
+                    <p class="text-gray-100">{{ user.email }}</p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Phone</label>
+                    <p class="text-gray-100">{{ profile.phone_number|default:"Not provided" }}</p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Bio</label>
+                    <p class="text-gray-100">{{ profile.bio|default:"Not provided" }}</p>
+                </div>
+            </div>
+
+            <!-- Profile Picture and Address -->
+            <div>
+                <h2 class="text-xl font-semibold mb-4 text-gray-100">Profile Picture</h2>
+
+                <div class="mb-4">
+                    {% if profile.avatar %}
+                    <img src="{{ profile.avatar.url }}" alt="Profile Picture" class="w-32 h-32 rounded-full object-cover mb-4">
+                    {% else %}
+                    <img src="{% static 'images/avatar-placeholder.jpg' %}" alt="Profile Picture" class="w-32 h-32 rounded-full object-cover mb-4">
+                    {% endif %}
+                </div>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-100">Address</h2>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Address</label>
+                    <p class="text-gray-100">{{ profile.address|default:"Not provided" }}</p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-300 mb-1">City</label>
+                    <p class="text-gray-100">{{ profile.city|default:"Not provided" }}</p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-300 mb-1">State</label>
+                    <p class="text-gray-100">{{ profile.state|default:"Not provided" }}</p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Country</label>
+                    <p class="text-gray-100">{{ profile.country|default:"Not provided" }}</p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Zip Code</label>
+                    <p class="text-gray-100">{{ profile.zip_code|default:"Not provided" }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

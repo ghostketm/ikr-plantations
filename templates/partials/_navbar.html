@@ -1,0 +1,113 @@
+{% load static %}
+<nav class="bg-gray-900 shadow-2xl border-b border-silver">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center">
+                <a href="{% url 'home' %}" class="flex items-center"><img src="{% static 'images/logo.png' %}" alt="IKR Plantations" class="h-8 w-auto"> <span class="ml-2 text-white font-bold text-lg">IKR Plantations</span></a>
+            </div>
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8">
+                <!-- Search Bar -->
+                <form action="{% url 'search' %}" method="get" class="flex items-center">
+                    <input type="text" name="q" placeholder="Search listings, agents, categories..." class="px-3 py-2 rounded-l-md text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500" required>
+                    <button type="submit" class="bg-primary-600 text-white px-4 py-2 rounded-r-md hover:bg-primary-700 transition duration-300">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+                <a href="{% url 'listing_list' %}" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300">Listings</a>
+                <a href="{% url 'agent_list' %}" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300">Agents</a>
+                {% if user.is_authenticated %}
+                    <!-- User Menu Dropdown -->
+                    <div class="relative">
+                        <button id="user-menu-button" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 flex items-center">
+                            <i class="fas fa-user mr-2"></i> Menu
+                            <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-gray-800 border border-silver rounded-md shadow-lg hidden z-50">
+                            <a href="{% url 'profile' %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Profile</a>
+                            {% if user.agent_profile %}
+                                <a href="{% url 'agent_dashboard' %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
+                            {% endif %}
+                            <a href="{% url 'account_email' %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Change Email</a>
+                            <a href="{% url 'account_logout' %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Sign Out</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{% url 'account_login' %}" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300">Login</a>
+                    <a href="{% url 'account_signup' %}" class="bg-gradient-to-r from-silver to-gray-600 hover:from-gray-600 hover:to-silver text-black px-4 py-2 rounded-md text-sm font-medium transition duration-300 shadow-lg">Sign Up</a>
+                {% endif %}
+            </div>
+            <!-- Mobile menu button -->
+            <div class="md:hidden flex items-center space-x-2">
+                <!-- Mobile Search Button -->
+                <button id="mobile-search-button" class="text-gray-300 hover:text-white focus:outline-none focus:text-white">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </button>
+                <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none focus:text-white">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Search Bar -->
+        <div id="mobile-search" class="md:hidden hidden bg-gray-800 border-t border-silver px-4 py-3">
+            <form action="{% url 'search' %}" method="get" class="flex items-center">
+                <input type="text" name="q" placeholder="Search listings, agents, categories..." class="flex-1 px-3 py-2 rounded-l-md text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500" required>
+                <button type="submit" class="bg-primary-600 text-white px-4 py-2 rounded-r-md hover:bg-primary-700 transition duration-300">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-gray-800 border-t border-silver">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="{% url 'listing_list' %}" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Listings</a>
+                <a href="{% url 'agent_list' %}" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Agents</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Profile</a>
+                    {% if user.agent_profile %}
+                        <a href="{% url 'agent_dashboard' %}" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
+                    {% endif %}
+                    <a href="{% url 'account_email' %}" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Change Email</a>
+                    <a href="{% url 'account_logout' %}" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Sign Out</a>
+                {% else %}
+                    <a href="{% url 'account_login' %}" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Login</a>
+                    <a href="{% url 'account_signup' %}" class="bg-gradient-to-r from-silver to-gray-600 text-black block px-3 py-2 rounded-md text-base font-medium">Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+<script>
+    // Mobile menu toggle
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+        document.getElementById('mobile-menu').classList.toggle('hidden');
+        document.getElementById('mobile-search').classList.add('hidden'); // Hide search when menu opens
+    });
+
+    // Mobile search toggle
+    document.getElementById('mobile-search-button').addEventListener('click', function() {
+        document.getElementById('mobile-search').classList.toggle('hidden');
+        document.getElementById('mobile-menu').classList.add('hidden'); // Hide menu when search opens
+    });
+
+    // User menu dropdown toggle
+    document.getElementById('user-menu-button').addEventListener('click', function() {
+        document.getElementById('user-menu').classList.toggle('hidden');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const userMenu = document.getElementById('user-menu');
+        const userMenuButton = document.getElementById('user-menu-button');
+        if (userMenu && userMenuButton && !userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+            userMenu.classList.add('hidden');
+        }
+    });
+</script>
