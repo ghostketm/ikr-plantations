@@ -164,6 +164,7 @@ static/
 .env.local
 .env.production
 .env.staging
+.env.example 
 
 # Exclude build artifacts if any
 build/
