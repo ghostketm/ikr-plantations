@@ -7,7 +7,7 @@ from apps.inquiries.models import Inquiry
 
 
 def agent_list(request):
-    agents = AgentProfile.objects.filter(verification_status='verified').order_by('-rating')
+    agents = AgentProfile.objects.all().order_by('verification_status', '-rating')
     filter_form = AgentFilter(request.GET, queryset=agents)
     agents = filter_form.qs
 
