@@ -1,5 +1,5 @@
 from django import forms
-from .models import Listing, Category, Location, Amenity
+from .models import Listing, Category, Location, Amenity, ListingImage
 
 
 class ListingForm(forms.ModelForm):
@@ -7,6 +7,11 @@ class ListingForm(forms.ModelForm):
         queryset=Amenity.objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=False
+    )
+    images = forms.FileField(
+        widget=forms.ClearableFileInput(attrs={'multiple': True}),
+        required=False,
+        help_text='Upload multiple images for the listing'
     )
 
     class Meta:

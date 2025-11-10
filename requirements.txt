@@ -9,3 +9,5 @@ python-decouple
 dj-database-url
 Pillow
 django-filter
+cloudinary
+django-cloudinary-storage

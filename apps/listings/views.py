@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
-from .models import Listing, Category, Location
+from .models import Listing, Category, Location, ListingImage
 from .forms import ListingForm, ListingSearchForm
 from .filters import ListingFilter
 
@@ -52,6 +52,12 @@ def listing_create(request):
             listing = form.save(commit=False)
             listing.agent = request.user
             listing.save()
+
+            # Handle image uploads
+            images = request.FILES.getlist('images')
+            for image in images:
+                ListingImage.objects.create(listing=listing, image=image)
+
             messages.success(request, 'Listing created successfully.')
             return redirect('listing_detail', slug=listing.slug)
     else:
@@ -65,7 +71,13 @@ def listing_update(request, slug):
     if request.method == 'POST':
         form = ListingForm(request.POST, request.FILES, instance=listing)
         if form.is_valid():
-            form.save()
+            listing = form.save()
+
+            # Handle new image uploads
+            images = request.FILES.getlist('images')
+            for image in images:
+                ListingImage.objects.create(listing=listing, image=image)
+
             messages.success(request, 'Listing updated successfully.')
             return redirect('listing_detail', slug=listing.slug)
     else:
