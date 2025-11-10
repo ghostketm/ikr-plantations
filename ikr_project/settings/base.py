@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'whitenoise',
+    'cloudinary_storage',
+    'cloudinary',
     'apps.users',
     'apps.agents',
     'apps.listings',
