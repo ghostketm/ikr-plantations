@@ -46,6 +46,10 @@ def listing_detail(request, slug):
 
 @login_required
 def listing_create(request):
+    if not hasattr(request.user, 'agent_profile'):
+        messages.error(request, 'Only agents can create listings.')
+        return redirect('profile')
+
     if request.method == 'POST':
         form = ListingForm(request.POST, request.FILES)
         if form.is_valid():

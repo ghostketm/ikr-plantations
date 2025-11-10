@@ -9,7 +9,6 @@ class ListingForm(forms.ModelForm):
         required=False
     )
     images = forms.FileField(
-        widget=forms.ClearableFileInput(attrs={'multiple': True}),
         required=False,
         help_text='Upload multiple images for the listing'
     )

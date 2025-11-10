@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Our Agents - IKR Plantations{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8 text-gray-100">Our Verified Agents</h1>
+
+    <!-- Filter Form -->
+    <div class="bg-primary-800 p-6 rounded-lg mb-8">
+        <form method="get" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            <div class="md:col-span-3">
+                {{ filter_form.form.query|as_crispy_field }}
+            </div>
+            <div>
+                <button type="submit" class="w-full bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition duration-300">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Agents Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
+        {% for agent in page_obj %}
+        <div class="bg-primary-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:bg-primary-700 transition duration-300 text-center w-full max-w-xs">
+            <a href="{% url 'agent_detail' agent.pk %}">
+                <img src="{% if agent.user.profile.avatar %}{{ agent.user.profile.avatar.url }}{% else %}{% static 'images/avatar-placeholder.jpg' %}{% endif %}" alt="{{ agent.user.get_full_name }}" class="w-full h-48 object-cover">
+            </a>
+            <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2"><a href="{% url 'agent_detail' agent.pk %}" class="text-white hover:text-primary-200 block">{{ agent.user.get_full_name }}</a></h3>
+                <p class="text-gray-300 mb-2">{{ agent.agency_name }}</p>
+                <div class="flex items-center justify-center mb-4">
+                    <span class="text-yellow-400 text-lg">★</span>
+                    <span class="ml-1 font-semibold text-gray-100">{{ agent.rating|floatformat:1 }}</span>
+                </div>
+                <div class="text-sm text-gray-400">
+                    <p>{{ agent.total_listings }} listings</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-gray-400 col-span-full text-center">No agents found matching your criteria.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+    <div class="mt-8 flex justify-center">
+        <nav class="flex items-center space-x-2">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 bg-primary-700 rounded-lg hover:bg-primary-600">&laquo; Prev</a>
+            {% endif %}
+            <span class="px-4 py-2 text-gray-300">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 bg-primary-700 rounded-lg hover:bg-primary-600">Next &raquo;</a>
+            {% endif %}
+        </nav>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
