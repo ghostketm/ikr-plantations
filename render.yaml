@@ -3,7 +3,11 @@ services:
     name: ikr-plantations
     runtime: python
     plan: free
-    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
+    buildCommand: |
+      pip install -r requirements.txt &&
+      python manage.py collectstatic --noinput &&
+      python manage.py migrate &&
+      echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('$SUPERUSER_USERNAME', '$SUPERUSER_EMAIL', '$SUPERUSER_PASSWORD')" | python manage.py shell
     startCommand: gunicorn ikr_project.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: DJANGO_SETTINGS_MODULE
@@ -22,6 +26,12 @@ services:
           type: web
           name: ikr-plantations
           property: host
+      - key: SUPERUSER_USERNAME
+        value: admin
+      - key: SUPERUSER_EMAIL
+        value: your-email@example.com
+      - key: SUPERUSER_PASSWORD
+        value: secure-password-123
       - key: CLOUDINARY_CLOUD_NAME
         sync: false
       - key: CLOUDINARY_API_KEY
@@ -29,7 +39,6 @@ services:
       - key: CLOUDINARY_API_SECRET
         sync: false
       - key: CLOUDINARY_URL
-        sync: false
 
 databases:
   - name: ikr-db
