@@ -1,0 +1,127 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-4">Create Agent</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label for="{{ form.user.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ form.user.label }}</label>
+            {{ form.user }}
+            <p class="text-gray-600 text-xs">{{ form.user.help_text }}</p>
+            {% if form.user.errors %}
+                <p class="text-red-500 text-xs">{{ form.user.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.email.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ form.email.label }}</label>
+            {{ form.email }}
+            <p class="text-gray-600 text-xs">{{ form.email.help_text }}</p>
+            {% if form.email.errors %}
+                <p class="text-red-500 text-xs">{{ form.email.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.username.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ form.username.label }}</label>
+            {{ form.username }}
+            <p class="text-gray-600 text-xs">{{ form.username.help_text }}</p>
+            {% if form.username.errors %}
+                <p class="text-red-500 text-xs">{{ form.username.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.agency_name.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ form.agency_name.label }}</label>
+            {{ form.agency_name }}
+            {% if form.agency_name.errors %}
+                <p class="text-red-500 text-xs">{{ form.agency_name.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.license_number.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ form.license_number.label }}</label>
+            {{ form.license_number }}
+            {% if form.license_number.errors %}
+                <p class="text-red-500 text-xs">{{ form.license_number.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.years_of_experience.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ form.years_of_experience.label }}</label>
+            {{ form.years_of_experience }}
+            {% if form.years_of_experience.errors %}
+                <p class="text-red-500 text-xs">{{ form.years_of_experience.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.specialization.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ form.specialization.label }}</label>
+            {{ form.specialization }}
+            {% if form.specialization.errors %}
+                <p class="text-red-500 text-xs">{{ form.specialization.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.description.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ form.description.label }}</label>
+            {{ form.description }}
+            {% if form.description.errors %}
+                <p class="text-red-500 text-xs">{{ form.description.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.office_address.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ form.office_address.label }}</label>
+            {{ form.office_address }}
+            {% if form.office_address.errors %}
+                <p class="text-red-500 text-xs">{{ form.office_address.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.website.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ form.website.label }}</label>
+            {{ form.website }}
+            {% if form.website.errors %}
+                <p class="text-red-500 text-xs">{{ form.website.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.facebook.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ form.facebook.label }}</label>
+            {{ form.facebook }}
+            {% if form.facebook.errors %}
+                <p class="text-red-500 text-xs">{{ form.facebook.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.twitter.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ form.twitter.label }}</label>
+            {{ form.twitter }}
+            {% if form.twitter.errors %}
+                <p class="text-red-500 text-xs">{{ form.twitter.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.linkedin.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ form.linkedin.label }}</label>
+            {{ form.linkedin }}
+            {% if form.linkedin.errors %}
+                <p class="text-red-500 text-xs">{{ form.linkedin.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.instagram.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ form.instagram.label }}</label>
+            {{ form.instagram }}
+            {% if form.instagram.errors %}
+                <p class="text-red-500 text-xs">{{ form.instagram.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.verification_status.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ form.verification_status.label }}</label>
+            {{ form.verification_status }}
+            {% if form.verification_status.errors %}
+                <p class="text-red-500 text-xs">{{ form.verification_status.errors.0 }}</p>
+            {% endif %}
+        </div>
+        {% if form.non_field_errors %}
+            <div class="mb-4">
+                <p class="text-red-500 text-xs">{{ form.non_field_errors.0 }}</p>
+            </div>
+        {% endif %}
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Create Agent
+        </button>
+    </form>
+</div>
+{% endblock %}

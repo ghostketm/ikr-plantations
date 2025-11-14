@@ -1,6 +1,6 @@
 from django import forms
-from .models import Listing, Category, Location, Amenity, ListingImage
-
+from .models import Listing, Amenity, ListingImage, Location, Category
+from .models import PropertyType
 
 class ListingForm(forms.ModelForm):
     amenities = forms.ModelMultipleChoiceField(
@@ -10,44 +10,32 @@ class ListingForm(forms.ModelForm):
     )
     images = forms.FileField(
         required=False,
-        help_text='Upload multiple images for the listing'
+        help_text='Upload images for the listing (you can select multiple files)'
+    )
+    property_type_obj = forms.ModelChoiceField(
+        queryset=PropertyType.objects.all(),
+        required=False,
+        empty_label='Select a Property Type',
+        label='Property Type'
+    )
+    location = forms.ModelChoiceField(
+        queryset=Location.objects.all(),
+        empty_label="Select a Location",
+        required=True
+    )
+    category = forms.ModelChoiceField(
+        queryset=Category.objects.all(),
+        empty_label="Select a Category",
+        required=True
     )
 
     class Meta:
         model = Listing
         fields = [
-            'title', 'description', 'property_type', 'category', 'price',
-            'bedrooms', 'bathrooms', 'square_feet', 'lot_size', 'year_built',
-            'garage_spaces', 'location', 'amenities', 'is_featured'
+            'title', 'property_type_obj', 'category', 'status', 'description', 'price',
+            'bedrooms', 'bathrooms', 'square_feet', 'lot_size', 'year_built', 'garage_spaces',
+            'location', 'amenities', 'is_featured'
         ]
         widgets = {
             'description': forms.Textarea(attrs={'rows': 4}),
-            'location': forms.Select(attrs={'class': 'form-control'}),
         }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['location'].queryset = Location.objects.all()
-        self.fields['category'].queryset = Category.objects.all()
-
-
-class ListingSearchForm(forms.Form):
-    query = forms.CharField(required=False, label='Search')
-    category = forms.ModelChoiceField(
-        queryset=Category.objects.all(),
-        required=False,
-        empty_label='All Categories'
-    )
-    location = forms.ModelChoiceField(
-        queryset=Location.objects.all(),
-        required=False,
-        empty_label='All Locations'
-    )
-    property_type = forms.ChoiceField(
-        choices=[('', 'All Types')] + list(Listing.PROPERTY_TYPE),
-        required=False
-    )
-    min_price = forms.DecimalField(required=False, min_value=0)
-    max_price = forms.DecimalField(required=False, min_value=0)
-    bedrooms = forms.IntegerField(required=False, min_value=0)
-    bathrooms = forms.IntegerField(required=False, min_value=0)

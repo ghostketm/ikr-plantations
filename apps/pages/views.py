@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.views.generic import TemplateView
 from apps.listings.models import Listing, Category
-from apps.agents.models import AgentProfile
+from apps.agents.models import Agent
 
 
 class HomeView(TemplateView):
@@ -11,10 +11,10 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['featured_listings'] = Listing.objects.filter(
-            is_featured=True, is_active=True, status='available'
+            is_featured=True, is_published=True, status='available'
         )[:6]
         context['categories'] = Category.objects.all()[:8]
-        context['featured_agents'] = AgentProfile.objects.filter(
+        context['featured_agents'] = Agent.objects.filter(
             verification_status='verified', is_featured=True
         )[:4]
         return context
@@ -47,7 +47,7 @@ def search_view(request):
     )[:10]  # Limit to 10 results
 
     # Search agents
-    agents = AgentProfile.objects.filter(
+    agents = Agent.objects.filter(
         Q(user__first_name__icontains=query) |
         Q(user__last_name__icontains=query) |
         Q(agency_name__icontains=query) |
@@ -68,3 +68,39 @@ def search_view(request):
         'categories': categories,
     }
     return render(request, 'search_results.html', context)
+
+
+class LicensingView(TemplateView):
+    template_name = 'pages/licensing.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Real Estate Licensing - Kenya'
+        return context
+
+
+class TermsOfServiceView(TemplateView):
+    template_name = 'pages/terms.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Terms of Service'
+        return context
+
+
+class PrivacyPolicyView(TemplateView):
+    template_name = 'pages/privacy.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Privacy Policy'
+        return context
+
+
+class LegalDisclaimersView(TemplateView):
+    template_name = 'pages/legal.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Legal Disclaimers & Regulations'
+        return context

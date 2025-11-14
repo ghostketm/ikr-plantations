@@ -1,5 +1,5 @@
 import django_filters
-from .models import AgentProfile
+from .models import Agent
 
 
 class AgentFilter(django_filters.FilterSet):
@@ -12,7 +12,7 @@ class AgentFilter(django_filters.FilterSet):
     max_experience = django_filters.NumberFilter(field_name='years_of_experience', lookup_expr='lte')
 
     class Meta:
-        model = AgentProfile
+        model = Agent
         fields = ['query', 'agency_name', 'specialization', 'min_rating', 'max_rating', 'min_experience', 'max_experience']
 
     def filter_query(self, queryset, name, value):

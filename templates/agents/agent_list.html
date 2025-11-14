@@ -53,32 +53,42 @@
 
         <!-- Agents Grid -->
         <div class="lg:w-3/4">
-            <h1 class="text-3xl font-bold mb-8 text-gray-100">Our Real Estate Agents</h1>
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-100">Our Real Estate Agents</h1>
+                {% if user.is_staff or user.is_superuser %}
+                <div class="flex space-x-4">
+                    <a href="{% url 'agents_create_agent' %}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                        Add Agent
+                    </a>
+                </div>
+                {% endif %}
+            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
                 {% for agent in page_obj %}
-                <div class="bg-primary-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:bg-primary-700 transition duration-300 text-center w-full max-w-xs">
-                    <img src="{% if agent.user.profile.avatar %}{{ agent.user.profile.avatar.url }}{% else %}{% static 'images/avatar-placeholder.jpg' %}{% endif %}" alt="{{ agent.user.get_full_name }}" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2"><a href="{% url 'agent_detail' agent.id %}" class="text-white hover:text-primary-200 block">{{ agent.user.get_full_name }}</a></h3>
-                        <p class="text-gray-300 mb-2">{{ agent.agency_name }}</p>
-                        <p class="text-sm text-gray-400 mb-2">{{ agent.years_of_experience }} years experience</p>
-                        <div class="flex items-center justify-center mb-4">
-                            <span class="text-yellow-400 text-lg">★</span>
-                            <span class="ml-1 font-semibold text-gray-100">{{ agent.rating|floatformat:1 }}</span>
-                            {% if agent.verification_status != 'verified' %}
-                            <span class="ml-2 bg-yellow-500 text-yellow-900 px-2 py-1 rounded-full text-xs font-semibold">{{ agent.get_verification_status_display }}</span>
-                            {% endif %}
+                <div class="group relative flex flex-col bg-primary-800 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-silver/20 hover:-translate-y-1">
+                    <a href="{% url 'agents_agent_detail' agent.id %}" class="flex flex-col flex-grow h-full">
+                        <div class="relative">
+                            <img src="{% if agent.user.profile.avatar %}{{ agent.user.profile.avatar.url }}{% else %}{% static 'images/avatar-placeholder.jpg' %}{% endif %}" alt="{{ agent.user.get_full_name }}" class="w-full h-56 object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-0 left-0 p-4">
+                                <h3 class="text-xl font-bold text-white truncate">{{ agent.user.get_full_name }}</h3>
+                                <p class="text-sm text-gray-300 truncate">{{ agent.agency_name }}</p>
+                            </div>
                         </div>
-                        <div class="text-sm text-gray-400">
-                            <p>{{ agent.total_listings }} listings</p>
+                        <div class="p-4 flex flex-col flex-grow">
+                            <div class="flex-grow">
+                                <div class="flex justify-between items-center text-sm text-gray-400 gap-2">
+                                    <span class="flex items-center" title="Rating"><i class="fas fa-star text-yellow-400 mr-1"></i> {{ agent.rating|floatformat:1 }}</span>
+                                    <span title="Years of Experience">{{ agent.years_of_experience }} years exp.</span>
+                                    <span title="Total Listings">{{ agent.total_listings|default:0 }} listings</span>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-4 border-t border-gray-700">
+                                <span class="w-full text-center bg-primary-600 text-white px-4 py-2.5 rounded-lg group-hover:bg-silver group-hover:text-black transition duration-300 inline-block font-semibold">View Profile</span>
+                            </div>
                         </div>
-                        <div class="mt-4">
-                            <a href="mailto:{{ agent.get_contact_email }}" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition duration-300 inline-block text-sm">
-                                <i class="fas fa-envelope mr-2"></i>Contact Agent
-                            </a>
-                        </div>
-                    </div>
+                    </a>
                 </div>
                 {% empty %}
                 <div class="col-span-full text-center py-12">

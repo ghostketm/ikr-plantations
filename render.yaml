@@ -3,7 +3,7 @@ services:
     name: ikr-plantations
     runtime: python
     plan: free
-    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate && echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('ghostketm@gmail.com', 'QWERTY123\$%^\&*()', username='ikrADMIN', first_name='Admin', last_name='User')" | python manage.py shell
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
     startCommand: gunicorn ikr_project.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: DJANGO_SETTINGS_MODULE

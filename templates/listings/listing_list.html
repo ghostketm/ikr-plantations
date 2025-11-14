@@ -17,21 +17,6 @@
                         <label for="id_query" class="block text-sm font-medium text-gray-300 mb-1">Search</label>
                         {{ filter_form.query }}
                     </div>
-                    <!-- Category Filter -->
-                    <div class="mb-4">
-                        <label for="id_category" class="block text-sm font-medium text-gray-300 mb-1">Category</label>
-                        {{ filter_form.category }}
-                    </div>
-                    <!-- Location Filter -->
-                    <div class="mb-4">
-                        <label for="id_location" class="block text-sm font-medium text-gray-300 mb-1">Location</label>
-                        {{ filter_form.location }}
-                    </div>
-                    <!-- Property Type Filter -->
-                    <div class="mb-4">
-                        <label for="id_property_type" class="block text-sm font-medium text-gray-300 mb-1">Property Type</label>
-                        {{ filter_form.property_type }}
-                    </div>
                     <!-- Min Price Filter -->
                     <div class="mb-4">
                         <label for="id_min_price" class="block text-sm font-medium text-gray-300 mb-1">Min Price</label>
@@ -42,16 +27,6 @@
                         <label for="id_max_price" class="block text-sm font-medium text-gray-300 mb-1">Max Price</label>
                         {{ filter_form.max_price }}
                     </div>
-                    <!-- Bedrooms Filter -->
-                    <div class="mb-4">
-                        <label for="id_bedrooms" class="block text-sm font-medium text-gray-300 mb-1">Min Bedrooms</label>
-                        {{ filter_form.bedrooms }}
-                    </div>
-                    <!-- Bathrooms Filter -->
-                    <div class="mb-4">
-                        <label for="id_bathrooms" class="block text-sm font-medium text-gray-300 mb-1">Min Bathrooms</label>
-                        {{ filter_form.bathrooms }}
-                    </div>
                     <button type="submit" class="w-full bg-primary-600 text-white py-2 px-4 rounded-lg hover:bg-primary-700 transition duration-300">Apply Filters</button>
                 </form>
             </div>
@@ -61,8 +36,12 @@
         <div class="lg:w-3/4">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-3xl font-bold">Property Listings</h1>
-                {% if user.is_authenticated and user.agent_profile %}
-                <a href="{% url 'listing_create' %}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300">Add New Listing</a>
+                {% if user.is_authenticated %}
+                    {% if user.is_staff or user.is_superuser %}
+                        <a href="{% url 'listing_create' %}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300">Add New Listing</a>
+                    {% elif user.agent and user.agent.is_active and user.agent.verification_status == 'verified' %}
+                        <a href="{% url 'listing_create' %}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300">Add New Listing</a>
+                    {% endif %}
                 {% endif %}
             </div>
 

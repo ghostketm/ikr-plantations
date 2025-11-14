@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-8">
+    <div class="bg-gray-800 rounded-lg shadow-xl p-8 border border-silver">
+        <h1 class="text-4xl font-bold text-white mb-8 text-center">Real Estate Licensing in Kenya</h1>
+
+        <div class="prose prose-lg prose-invert max-w-none">
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold text-primary-400 mb-4">Overview</h2>
+                <p class="text-gray-300 leading-relaxed mb-4">
+                    Real estate practice in Kenya is regulated by the Estate Agents Act (Cap 533) of the Laws of Kenya.
+                    All estate agents must be licensed and registered with the relevant authorities to legally conduct
+                    real estate business in the country.
+                </p>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold text-primary-400 mb-4">Regulatory Bodies</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-700 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold text-white mb-3">Estate Agents Registration Board (EARB)</h3>
+                        <p class="text-gray-300 mb-3">
+                            The primary regulatory body responsible for licensing and regulating estate agents in Kenya.
+                        </p>
+                        <ul class="text-gray-300 space-y-2">
+                            <li>• Issues practicing licenses</li>
+                            <li>• Conducts examinations</li>
+                            <li>• Enforces professional standards</li>
+                            <li>• Handles complaints and disciplinary matters</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-700 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold text-white mb-3">Kenya Revenue Authority (KRA)</h3>
+                        <p class="text-gray-300 mb-3">
+                            Oversees tax compliance for real estate transactions and agent income.
+                        </p>
+                        <ul class="text-gray-300 space-y-2">
+                            <li>• PIN registration for agents</li>
+                            <li>• VAT compliance</li>
+                            <li>• Income tax obligations</li>
+                            <li>• Stamp duty collection</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold text-primary-400 mb-4">Licensing Requirements</h2>
+                <div class="bg-gray-700 p-6 rounded-lg mb-6">
+                    <h3 class="text-xl font-semibold text-white mb-4">Individual Agent License</h3>
+                    <ul class="text-gray-300 space-y-2">
+                        <li>• Must be at least 18 years old</li>
+                        <li>• Possess a minimum of KCSE Certificate or equivalent</li>
+                        <li>• Complete approved estate agency training course</li>
+                        <li>• Pass the Estate Agents Registration Board examination</li>
+                        <li>• Provide two referees</li>
+                        <li>• Pay prescribed license fees</li>
+                        <li>• Maintain professional indemnity insurance</li>
+                    </ul>
+                </div>
+
+                <div class="bg-gray-700 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold text-white mb-4">Company License</h3>
+                    <ul class="text-gray-300 space-y-2">
+                        <li>• Must be registered under the Companies Act</li>
+                        <li>• At least one director must hold an individual license</li>
+                        <li>• Maintain proper business records</li>
+                        <li>• Comply with anti-money laundering regulations</li>
+                        <li>• Pay annual license renewal fees</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold text-primary-400 mb-4">Code of Conduct</h2>
+                <p class="text-gray-300 leading-relaxed mb-4">
+                    Licensed estate agents in Kenya are required to adhere to a strict code of professional conduct,
+                    including:
+                </p>
+                <ul class="text-gray-300 space-y-2 ml-6">
+                    <li>• Acting with honesty, integrity, and impartiality</li>
+                    <li>• Maintaining client confidentiality</li>
+                    <li>• Avoiding conflicts of interest</li>
+                    <li>• Providing accurate property information</li>
+                    <li>• Complying with anti-discrimination laws</li>
+                    <li>• Continuing professional development</li>
+                </ul>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold text-primary-400 mb-4">License Renewal</h2>
+                <p class="text-gray-300 leading-relaxed mb-4">
+                    Estate agent licenses must be renewed annually. Requirements for renewal include:
+                </p>
+                <ul class="text-gray-300 space-y-2 ml-6">
+                    <li>• Payment of renewal fees</li>
+                    <li>• Completion of continuing professional education (CPE)</li>
+                    <li>• Maintenance of professional indemnity insurance</li>
+                    <li>• Good standing with no disciplinary actions</li>
+                </ul>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold text-primary-400 mb-4">Penalties for Non-Compliance</h2>
+                <p class="text-gray-300 leading-relaxed mb-4">
+                    Unlicensed practice or violation of regulations may result in:
+                </p>
+                <ul class="text-gray-300 space-y-2 ml-6">
+                    <li>• Fines up to KSh 1,000,000</li>
+                    <li>• Imprisonment for up to 5 years</li>
+                    <li>• License suspension or revocation</li>
+                    <li>• Civil liability for damages</li>
+                </ul>
+            </section>
+
+            <section class="bg-primary-900 p-6 rounded-lg">
+                <h2 class="text-2xl font-semibold text-white mb-4">Contact Information</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-lg font-semibold text-primary-300 mb-2">Estate Agents Registration Board</h3>
+                        <p class="text-gray-300">
+                            P.O. Box 13445-00100<br>
+                            Nairobi, Kenya<br>
+                            Tel: +254 20 2719231<br>
+                            Email: info@earb.or.ke<br>
+                            <a href="www.earb.or.ke" target="_blank">www.earb.or.ke</a>
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-primary-300 mb-2">Kenya Revenue Authority</h3>
+                        <p class="text-gray-300">
+                            P.O. Box 48240-00100<br>
+                            Nairobi, Kenya<br>
+                            Tel: +254 20 2810000<br>
+                            <a href="www.kra.go.ke" target="_blank">Website: www.kra.go.ke</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

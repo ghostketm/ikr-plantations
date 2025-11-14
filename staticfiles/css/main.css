@@ -78,6 +78,66 @@ body {
     text-align: center;
 }
 
+/* Input fields styling */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+textarea,
+select {
+    background-color: #6b7280 !important;
+    color: #ffffff !important;
+    border: 1px solid #4b5563 !important;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder,
+input[type="number"]::placeholder,
+input[type="date"]::placeholder,
+input[type="time"]::placeholder,
+input[type="url"]::placeholder,
+input[type="search"]::placeholder,
+input[type="tel"]::placeholder,
+textarea::placeholder {
+    color: #d1d5db !important;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+textarea:focus,
+select:focus {
+    background-color: #6b7280 !important;
+    border-color: #94a3b8 !important;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.5);
+}
+
+/* Checkbox and radio buttons */
+input[type="checkbox"],
+input[type="radio"] {
+    accent-color: #94a3b8;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .hero h1 {

@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
+from django.utils import timezone
 from .forms import InquiryForm
 from apps.listings.models import Listing
 
@@ -18,26 +19,50 @@ def inquiry_create(request, listing_slug):
             inquiry.user = request.user
             inquiry.save()
 
+            # Send confirmation email to customer
+            subject_customer = f'Inquiry Sent for {listing.title}'
+            message_customer = f'''
+            Dear {request.user.get_full_name()},
+
+            Your inquiry for "{listing.title}" has been sent successfully.
+
+            Subject: {inquiry.subject}
+            Message: {inquiry.message}
+
+            The agent will respond to you soon.
+
+            Best regards,
+            Your Real Estate Team
+            '''
+            send_mail(
+                subject_customer,
+                message_customer,
+                settings.DEFAULT_FROM_EMAIL,
+                [request.user.email],
+                fail_silently=True
+            )
+
             # Send email notification to agent
             subject = f'New Inquiry for {listing.title}'
             message = f'''
             You have received a new inquiry for your listing "{listing.title}".
 
-            From: {request.user.get_full_name()} ({request.user.email})
+            From: {request.user.email}
             Subject: {inquiry.subject}
             Message: {inquiry.message}
 
             Please log in to your dashboard to respond.
             '''
-            send_mail(
+            email_to_agent = EmailMessage(
                 subject,
                 message,
                 settings.DEFAULT_FROM_EMAIL,
-                [listing.agent.email],
-                fail_silently=True
+                [listing.agent.user.email],
+                reply_to=[request.user.email],
             )
+            email_to_agent.send(fail_silently=True)
 
-            messages.success(request, 'Your inquiry has been sent successfully.')
+            messages.success(request, 'Your inquiry has been sent successfully. You will receive a confirmation email.')
             return redirect('listing_detail', slug=listing.slug)
     else:
         form = InquiryForm()
@@ -61,7 +86,7 @@ def inquiry_detail(request, pk):
 
 @login_required
 def inquiry_respond(request, pk):
-    inquiry = get_object_or_404(request.user.agent_profile.inquiries, pk=pk)
+    inquiry = get_object_or_404(request.user.agent.inquiries, pk=pk)
     if request.method == 'POST':
         response = request.POST.get('response')
         inquiry.response = response

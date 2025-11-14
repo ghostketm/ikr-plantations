@@ -32,5 +32,5 @@ class Inquiry(models.Model):
     def __str__(self):
         return f"Inquiry #{self.id} - {self.subject or 'General Inquiry'} from {self.user.email}"
 
-    def get_full_name(self):
-        return f"{self.user.first_name} {self.user.last_name}".strip() or self.user.email
+    def get_contact_info(self):
+        return self.email or self.user.email

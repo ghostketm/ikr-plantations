@@ -8,8 +8,6 @@ from .managers import UserManager
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
     username = models.CharField(_('username'), max_length=150, unique=True)
-    first_name = models.CharField(_('first name'), max_length=150, blank=True)
-    last_name = models.CharField(_('last name'), max_length=150, blank=True)
     
     is_staff = models.BooleanField(
         _('staff status'),
@@ -29,7 +27,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+    REQUIRED_FIELDS = ['username']
 
     class Meta:
         verbose_name = _('user')
@@ -39,10 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email
 
     def get_full_name(self):
-        return f'{self.first_name} {self.last_name}'.strip()
-
-    def get_short_name(self):
-        return self.first_name
+        return self.username
 
 
 class Profile(models.Model):

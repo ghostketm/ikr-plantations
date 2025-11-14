@@ -4,16 +4,31 @@ from django.utils.translation import gettext_lazy as _
 from .models import User, Profile
 
 
+class SuperuserOnlyAdminMixin:
+    """Mixin to restrict admin access to superusers only"""
+    
+    def has_add_permission(self, request):
+        return request.user.is_superuser
+    
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_superuser
+    
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_superuser
+    
+    def has_view_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+
 @admin.register(User)
-class UserAdmin(BaseUserAdmin):
-    list_display = ('email', 'username', 'first_name', 'last_name', 'is_staff', 'is_active')
+class UserAdmin(SuperuserOnlyAdminMixin, BaseUserAdmin):
+    list_display = ('email', 'username', 'is_staff', 'is_active')
     list_filter = ('is_staff', 'is_active', 'date_joined')
-    search_fields = ('email', 'username', 'first_name', 'last_name')
+    search_fields = ('email', 'username')
     ordering = ('-date_joined',)
     
     fieldsets = (
         (None, {'fields': ('email', 'username', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name')}),
         (_('Permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
         }),
@@ -23,7 +38,7 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'username', 'first_name', 'last_name', 'password1', 'password2'),
+            'fields': ('email', 'username', 'password1', 'password2'),
         }),
     )
 

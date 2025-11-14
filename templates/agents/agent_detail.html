@@ -2,68 +2,115 @@
 {% load static %}
 {% load humanize %}
 
-{% block title %}{{ agent.user.get_full_name }} - Real Estate Agent{% endblock %}
+{% block title %}{{ agent.user.get_full_name }} - Agent Profile{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 py-8">
-    <!-- Agent Profile -->
-    <div class="bg-primary-800 rounded-lg shadow-sm p-8 mb-8">
-        <div class="flex flex-col md:flex-row items-center md:items-start">
-            <img src="{% if agent.user.profile.avatar %}{{ agent.user.profile.avatar.url }}{% else %}{% static 'images/avatar-placeholder.jpg' %}{% endif %}" alt="{{ agent.user.get_full_name }}" class="w-32 h-32 rounded-full object-cover mb-4 md:mb-0 md:mr-8">
-            <div class="text-center md:text-left flex-grow">
-                <div class="flex flex-col md:flex-row justify-between md:items-start">
-                    <div>
-                        <h1 class="text-3xl font-bold text-gray-100 mb-2">{{ agent.user.get_full_name }}</h1>
-                        <p class="text-gray-300 text-lg mb-2">{{ agent.agency_name }}</p>
-                    </div>
-                    {% if request.user == agent.user %}
-                    <a href="{% url 'agent_profile_edit' %}" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition duration-300 inline-block text-sm">
-                        Edit Profile
-                    </a>
-                    {% endif %}
-                </div>
-                <p class="text-gray-300 mb-4">{{ agent.description }}</p>
-                <div class="flex flex-col md:flex-row md:items-center md:space-x-6 space-y-2 md:space-y-0">
-                    <div class="flex items-center">
-                        <span class="text-yellow-400 text-lg">★</span>
-                        <span class="ml-1 font-semibold text-gray-100">{{ agent.rating|floatformat:1 }}</span>
-                        <span class="ml-2 text-gray-400">(0 reviews)</span>
-                    </div>
-                    <div class="text-gray-300">
-                        <span class="font-semibold text-gray-100">{{ agent.years_of_experience }}</span> years experience
-                    </div>
-                    <div class="text-gray-300">
-                        <span class="font-semibold text-gray-100">{{ listings|length }}</span> active listings
-                    </div>
-                </div>
+<div class="container mx-auto px-4 py-8">
+    <!-- Agent Header -->
+    <div class="bg-primary-800 rounded-lg shadow-lg p-8 mb-8 flex flex-col md:flex-row items-center border border-silver/20">
+        <img src="{% if agent.user.profile.avatar %}{{ agent.user.profile.avatar.url }}{% else %}{% static 'images/avatar-placeholder.jpg' %}{% endif %}" alt="{{ agent.user.get_full_name }}" class="w-32 h-32 rounded-full object-cover border-4 border-primary-600 mb-4 md:mb-0 md:mr-8">
+        <div class="text-center md:text-left">
+            <div class="flex items-center justify-center md:justify-start gap-x-3 mb-1">
+                <h1 class="text-3xl font-bold text-white">{{ agent.user.get_full_name }}</h1>
+                {% if agent.verification_status == 'verified' %}
+                    <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-800">Verified</span>
+                {% elif agent.verification_status == 'pending' %}
+                    <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-yellow-200 text-yellow-800">Pending Review</span>
+                {% else %}
+                    <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-red-200 text-red-800">{{ agent.get_verification_status_display }}</span>
+                {% endif %}
+            </div>
+            <p class="text-xl text-gray-300 mb-2">{{ agent.agency_name }}</p>
+            <div class="flex items-center justify-center md:justify-start mt-2">
+                <span class="text-yellow-400 text-lg">★</span>
+                <span class="ml-1 font-semibold text-gray-100">{{ agent.rating|floatformat:1 }}</span>
+                <span class="text-gray-400 mx-2">|</span>
+                <span class="text-gray-300">{{ agent.years_of_experience }} years of experience</span>
+            </div>
+            <div class="mt-4 flex space-x-4 justify-center md:justify-start">
+                <a href="mailto:{{ agent.get_contact_email }}" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-silver hover:text-black transition duration-300"><i class="fas fa-envelope mr-2"></i>Email</a>
+                {% if agent.user.profile.phone_number %}
+                <a href="tel:{{ agent.user.profile.phone_number }}" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition duration-300"><i class="fas fa-phone mr-2"></i>Call</a>
+                {% endif %}
             </div>
         </div>
     </div>
 
-    <!-- Agent Listings -->
-    <div>
-        <h2 class="text-2xl font-bold mb-6 text-gray-100">Properties by {{ agent.user.get_full_name }}</h2>
-        {% if listings %}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
-            {% for listing in listings %}
-            {% include 'listings/partials/_listing_card.html' %}
-            {% endfor %}
-        </div>
-        {% else %}
-        <div class="text-center py-12">
-            <p class="text-gray-400 text-lg">No active listings at the moment.</p>
-        </div>
-        {% endif %}
-    </div>
+    <!-- Agent Details -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+            <div class="bg-primary-800 rounded-lg shadow p-6 mb-8">
+                <h2 class="text-2xl font-bold text-white mb-4">About Me</h2>
+                <p class="text-gray-300 leading-relaxed">{{ agent.description|linebreaksbr }}</p>
+            </div>
 
-    <!-- Contact Section -->
-    <div class="bg-primary-800 rounded-lg p-8 mt-8 shadow-md">
-        <h3 class="text-2xl font-bold text-center mb-4 text-gray-100">Get in Touch</h3>
-        <p class="text-center text-gray-300 mb-6">Ready to work with {{ agent.user.get_full_name }}? Contact them directly.</p>
-        <div class="text-center">
-            <a href="mailto:{{ agent.get_contact_email }}" class="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition duration-300 inline-block font-semibold">
-                <i class="fas fa-envelope mr-2"></i>Email Agent
-            </a>
+            <h2 class="text-2xl font-bold text-white mb-6">My Listings ({{ listings.count }})</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {% for listing in listings %}
+                    {% include 'listings/partials/_listing_card.html' %}
+                {% empty %}
+                    <p class="text-gray-400 md:col-span-2">This agent has no active listings at the moment.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="lg:col-span-1 space-y-8">
+            <div class="bg-primary-800 rounded-lg shadow p-6">
+                <h3 class="text-xl font-bold text-white mb-4">Information</h3>
+                <ul class="text-gray-300 space-y-3">
+                    <li><strong>Specialization:</strong> {{ agent.specialization }}</li>
+                    <li><strong>License Number:</strong> {{ agent.license_number }}</li>
+                    <li><strong>Office Address:</strong> {{ agent.office_address }}</li>
+                    {% if agent.website %}
+                    <li><strong>Website:</strong> <a href="{{ agent.website }}" target="_blank" class="text-primary-400 hover:underline">{{ agent.website }}</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <!-- Admin Actions -->
+            {% if user.is_staff or user.is_superuser %}
+            <div class="bg-primary-800 rounded-lg shadow p-6 border border-red-500/50">
+                <h3 class="text-xl font-bold text-white mb-4">Admin Actions</h3>
+                <p class="text-gray-400 text-sm mb-4">This will deactivate the agent's account and prevent them from logging in or managing listings.</p>
+                <a href="{% url 'agents_remove_agent' agent.id %}" class="w-full text-center bg-red-600 text-white px-4 py-2.5 rounded-lg hover:bg-red-700 transition duration-300 inline-block font-semibold">
+                    <i class="fas fa-trash-alt mr-2"></i>Deactivate Agent
+                </a>
+            </div>
+            {% endif %}
+
+            <!-- Rating/Review Form -->
+            {% if user.is_authenticated %}
+            <div class="bg-primary-800 rounded-lg shadow p-6">
+                <h3 class="text-xl font-bold text-white mb-4">Rate This Agent</h3>
+                <p class="text-gray-400 text-sm mb-4">Share your experience with this agent.</p>
+                <form method="post" class="space-y-4">
+                    {% csrf_token %}
+                    <div>
+                        <label for="rating" class="block text-sm font-medium text-gray-300 mb-1">Rating (out of 5)</label>
+                        <select name="rating" id="rating" class="w-full bg-primary-700 border border-gray-600 text-white rounded-lg focus:ring-silver focus:border-silver block p-2.5">
+                            <option value="5">★★★★★ (Excellent)</option>
+                            <option value="4">★★★★☆ (Good)</option>
+                            <option value="3">★★★☆☆ (Average)</option>
+                            <option value="2">★★☆☆☆ (Fair)</option>
+                            <option value="1">★☆☆☆☆ (Poor)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="comment" class="block text-sm font-medium text-gray-300 mb-1">Review / Comment</label>
+                        <textarea name="comment" id="comment" rows="4" class="w-full bg-primary-700 border border-gray-600 text-white rounded-lg focus:ring-silver focus:border-silver block p-2.5" placeholder="Describe your experience..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-primary-600 text-white px-4 py-2.5 rounded-lg hover:bg-silver hover:text-black transition duration-300 font-semibold">
+                        Submit Review
+                    </button>
+                </form>
+            </div>
+            {% else %}
+            <div class="bg-primary-800 rounded-lg shadow p-6">
+                <h3 class="text-xl font-bold text-white mb-4">Rate This Agent</h3>
+                <p class="text-gray-300">Please <a href="{% url 'account_login' %}?next={{ request.path }}" class="text-primary-400 hover:underline font-semibold">log in</a> to leave a review.</p>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

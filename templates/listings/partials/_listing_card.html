@@ -1,24 +1,29 @@
-{% load static %}
 {% load humanize %}
-<div class="bg-primary-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:bg-primary-700 transition duration-300 w-full max-w-xs h-80">
-    <img src="{% if listing.images.first %}{{ listing.images.first.image.url }}{% else %}{% static 'images/placeholder.jpg' %}{% endif %}" alt="{{ listing.title }}" class="w-full h-32 object-cover">
-    <div class="p-4">
-        <h3 class="text-lg font-semibold mb-2 text-center"><a href="{% url 'listing_detail' listing.slug %}" class="text-white hover:text-primary-200 block underline decoration-transparent hover:decoration-current transition duration-300">{{ listing.title }}</a></h3>
-        <p class="text-gray-300 mb-2 text-center text-sm">{{ listing.location }}</p>
-        <p class="text-xl font-bold text-green-400 mb-3 text-center">$ {{ listing.price|intcomma }}</p>
-        <div class="grid grid-cols-3 gap-1 text-xs text-gray-400 mb-3">
-            <div class="text-center border-r border-gray-600 pr-1"><span class="font-semibold text-white">{{ listing.bedrooms }}</span><br>beds</div>
-            <div class="text-center border-r border-gray-600 px-1"><span class="font-semibold text-white">{{ listing.bathrooms }}</span><br>baths</div>
-            <div class="text-center pl-1"><span class="font-semibold text-white">{{ listing.square_feet }}</span><br>sqft</div>
+{% load static %}
+
+<div class="group relative flex flex-col bg-primary-800 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-silver/20 hover:-translate-y-1 max-w-sm w-full">
+    <a href="{% url 'listing_detail' listing.slug %}" class="block h-full">
+        <div class="relative">
+            {% with listing.images.all|first as first_image %}
+                <img src="{% if first_image %}{{ first_image.image.url }}{% else %}{% static 'images/placeholder.jpg' %}{% endif %}" alt="{{ listing.title }}" class="w-full h-56 object-cover">
+            {% endwith %}
         </div>
-        <div class="flex justify-between items-center mb-3">
-            <span class="text-xs text-gray-400">{{ listing.created_at|date:"M d, Y" }}</span>
-            {% if listing.is_featured %}
-            <span class="bg-yellow-500 text-yellow-900 px-2 py-1 rounded-full text-xs font-semibold">Featured</span>
-            {% endif %}
+        <div class="p-4 flex flex-col flex-grow">
+            <h3 class="text-xl font-bold text-white truncate group-hover:text-silver transition-colors">{{ listing.title }}</h3>
+            <p class="text-lg font-semibold text-silver mb-2">${{ listing.price|intcomma }}</p>
+            <p class="text-sm text-gray-400 truncate mb-4"><i class="fas fa-map-marker-alt mr-1"></i>{{ listing.location }}</p>
+            
+            <div class="flex-grow flex justify-between items-center text-sm text-gray-300 border-t border-gray-700 pt-4">
+                <span title="Bedrooms"><i class="fas fa-bed mr-1 text-primary-400"></i> {{ listing.bedrooms|default:'N/A' }}</span>
+                <span title="Bathrooms"><i class="fas fa-bath mr-1 text-primary-400"></i> {{ listing.bathrooms|default:'N/A' }}</span>
+                <span title="Square Feet"><i class="fas fa-ruler-combined mr-1 text-primary-400"></i> {{ listing.square_feet|intcomma|default:'N/A' }} sqft</span>
+            </div>
+
+            <div class="mt-auto pt-4">
+                <span class="w-full text-center bg-primary-600 text-white px-4 py-2.5 rounded-lg group-hover:bg-silver group-hover:text-black transition duration-300 inline-block font-semibold">
+                    View Details
+                </span>
+            </div>
         </div>
-        <div class="text-center">
-            <a href="{% url 'listing_detail' listing.slug %}" class="inline-block bg-primary-600 text-white px-3 py-1 rounded-lg hover:bg-primary-500 transition duration-300 text-sm">View Details</a>
-        </div>
-    </div>
+    </a>
 </div>

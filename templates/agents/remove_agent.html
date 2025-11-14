@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-4">Remove Agent</h1>
+    <p class="mb-4">Are you sure you want to deactivate the agent <strong>{{ agent.user.get_full_name }}</strong> from {{ agent.agency_name }}?</p>
+    <p class="mb-4 text-red-600">This will mark the agent as inactive. They will no longer be able to access agent features.</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-4">
+            Yes, Deactivate Agent
+        </button>
+        <a href="{% url 'agents_agent_list' %}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+            Cancel
+        </a>
+    </form>
+</div>
+{% endblock %}

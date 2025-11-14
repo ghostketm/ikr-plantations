@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import ProfileUpdateForm, AgentProfileForm
+from .forms import ProfileUpdateForm
 from .models import Profile
 
 
@@ -25,19 +25,3 @@ def profile_edit(request):
     return render(request, 'users/profile_edit.html', {'form': form})
 
 
-@login_required
-def agent_profile_edit(request):
-    if not hasattr(request.user, 'agent_profile'):
-        messages.error(request, 'You are not an agent.')
-        return redirect('profile')
-
-    agent_profile = request.user.agent_profile
-    if request.method == 'POST':
-        form = AgentProfileForm(request.POST, instance=agent_profile)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Agent profile updated successfully.')
-            return redirect('profile')
-    else:
-        form = AgentProfileForm(instance=agent_profile)
-    return render(request, 'users/agent_profile_edit.html', {'form': form})
