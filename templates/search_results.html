@@ -52,7 +52,7 @@
             {% endfor %}
         </div>
         <div class="mt-6 text-center">
-            <a href="{% url 'agents_agent_list' %}?query={{ query }}" class="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition duration-300">View All Agents</a>
+            <a href="{% url 'agents:agent_list' %}?query={{ query }}" class="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition duration-300">View All Agents</a>
         </div>
     </section>
     {% endif %}

@@ -6,7 +6,13 @@ from apps.agents.models import Agent
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('email', 'username')
+        fields = ('email',)
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email:
+            email = email.lower()
+        return email
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
@@ -43,5 +49,3 @@ class ProfileUpdateForm(forms.ModelForm):
     def save(self, commit=True):
         profile = super().save(commit=commit)
         return profile
-
-

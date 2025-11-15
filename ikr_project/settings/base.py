@@ -159,7 +159,7 @@ AUTHENTICATION_BACKENDS = [
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/' # Default redirect. Will be overridden by the adapter.
 LOGOUT_REDIRECT_URL = '/'
 
 # Allauth configuration for custom User model with email as USERNAME_FIELD

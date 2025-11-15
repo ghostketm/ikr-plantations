@@ -17,9 +17,7 @@ class AgentFilter(django_filters.FilterSet):
 
     def filter_query(self, queryset, name, value):
         return queryset.filter(
-            user__first_name__icontains=value
-        ) | queryset.filter(
-            user__last_name__icontains=value
+            user__username__icontains=value
         ) | queryset.filter(
             agency_name__icontains=value
         ) | queryset.filter(
