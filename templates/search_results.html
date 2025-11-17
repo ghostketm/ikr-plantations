@@ -30,7 +30,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
             {% for agent in agents %}
             <div class="bg-primary-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:bg-primary-700 transition duration-300 text-center w-full max-w-xs">
-                <img src="{% if agent.user.profile.avatar %}{{ agent.user.profile.avatar.url }}{% else %}{% static 'images/avatar-placeholder.jpg' %}{% endif %}" alt="{{ agent.user.get_full_name }}" class="w-full h-48 object-cover">
+                <img src="{% if agent.user.profile.avatar %}{{ agent.user.profile.avatar.url }}{% else %}{% static 'images/avatar-placeholder.jpg' %}{% endif %}" alt="{{ agent.user.get_full_name }}" class="w-full h-48 object-cover" loading="lazy">
                 <div class="p-6">
                     <h3 class="text-xl font-semibold mb-2"><a href="{% url 'agents_agent_detail' agent.id %}" class="text-white hover:text-primary-200 block">{{ agent.user.get_full_name }}</a></h3>
                     <p class="text-gray-300 mb-2">{{ agent.agency_name }}</p>

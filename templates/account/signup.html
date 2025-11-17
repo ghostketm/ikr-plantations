@@ -18,6 +18,13 @@
 
                 {% for field in form %}
                 <div>
+                    {% if field.name == 'email' %}
+                    <div class="mb-4 p-3 bg-yellow-900/30 border border-yellow-700 rounded-lg">
+                        <p class="text-xs text-yellow-300">
+                            <strong>Important:</strong> Please use a valid and permanent email address. You will receive a verification email to activate your account. Disposable or temporary email addresses are not permitted.
+                        </p>
+                    </div>
+                    {% endif %}
                     <label for="{{ field.id_for_label }}" class="block text-sm font-bold text-silver mb-2">{{ field.label }}</label>
                     {{ field }}
                     {% if field.errors %}
@@ -25,6 +32,15 @@
                     {% endif %}
                 </div>
                 {% endfor %}
+
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        <input id="email-verification-confirm" name="email_verification_confirm" type="checkbox" required class="w-4 h-4 text-silver bg-gray-700 border-gray-600 rounded focus:ring-silver ring-offset-gray-800 focus:ring-2">
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label for="email-verification-confirm" class="text-gray-400">I confirm my email address is valid and can receive verification emails.</label>
+                    </div>
+                </div>
 
                 <div>
                     <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-full text-black bg-gradient-to-r from-silver to-gray-600 hover:from-gray-600 hover:to-silver focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-silver transition-all duration-300 shadow-lg transform hover:scale-105">

@@ -23,22 +23,22 @@
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-300 mb-1">Email</label>
-                    <p class="text-gray-100">{{ user.email }}</p>
+                    <p class="text-gray-100 break-words">{{ user.email }}</p>
                 </div>
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-300 mb-1">Username</label>
-                    <p class="text-gray-100">{{ user.username }}</p>
+                    <p class="text-gray-100 break-words">{{ user.username }}</p>
                 </div>
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-300 mb-1">Phone</label>
-                    <p class="text-gray-100">{{ profile.phone_number|default:"Not provided" }}</p>
+                    <p class="text-gray-100 break-words">{{ profile.phone_number|default:"Not provided" }}</p>
                 </div>
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-300 mb-1">Bio</label>
-                    <p class="text-gray-100">{{ profile.bio|default:"Not provided" }}</p>
+                    <p class="text-gray-100 break-words">{{ profile.bio|default:"Not provided" }}</p>
                 </div>
             </div>
 
@@ -48,7 +48,7 @@
 
                 <div class="mb-4">
                     {% if profile.avatar %}
-                    <img src="{{ profile.avatar.url }}" alt="Profile Picture" class="w-32 h-32 rounded-full object-cover mb-4">
+                    <img src="{{ profile.avatar.url }}" alt="Profile Picture" class="w-32 h-32 rounded-full object-cover mb-4" loading="lazy">
                     {% else %}
                     <img src="{% static 'images/avatar-placeholder.jpg' %}" alt="Profile Picture" class="w-32 h-32 rounded-full object-cover mb-4">
                     {% endif %}
@@ -58,7 +58,7 @@
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-300 mb-1">Address</label>
-                    <p class="text-gray-100">{{ profile.address|default:"Not provided" }}</p>
+                    <p class="text-gray-100 break-words">{{ profile.address|default:"Not provided" }}</p>
                 </div>
 
                 <div class="mb-4">

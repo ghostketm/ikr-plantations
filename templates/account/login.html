@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block title %}Login - IKR Plantations{% endblock %}
 
@@ -16,12 +17,34 @@
             <form method="post" class="space-y-6">
                 {% csrf_token %}
 
+                {% if form.non_field_errors %}
+                    <div class="bg-red-900/30 border border-red-700 text-red-300 px-4 py-3 rounded-lg" role="alert">
+                        <p class="font-bold">Error</p>
+                        <p class="text-sm">{{ form.non_field_errors.as_text|slice:"2:" }}</p>
+                    </div>
+                {% endif %}
+
                 {% for field in form %}
                 <div>
-                    <label for="{{ field.id_for_label }}" class="block text-sm font-bold text-silver mb-2">{{ field.label }}</label>
-                    {{ field }}
+                    <label for="{{ field.id_for_label }}" class="block text-sm font-bold text-silver mb-2">{{ field.label }}</label>                    
+                    {% if field.name == 'password' and field.field.widget.input_type == 'password' %}
+                    <div class="relative">
+                        {{ field|add_class:"appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-600 placeholder-gray-400 text-white bg-gray-700 focus:outline-none focus:ring-silver focus:border-silver focus:z-10 sm:text-sm transition duration-300 pr-10" }}
+                        <span class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer" id="togglePassword">
+                            <svg id="eye-open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            <svg id="eye-closed" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.274-4.057 5.064-7 9.542-7 .847 0 1.67.127 2.455.364m0 12.121a3 3 0 003.839-3.839M12 8.25A3.75 3.75 0 0115.75 12c0 .5-.1.975-.28 1.416M1.125 4.125L22.875 22.875" />
+                            </svg>
+                        </span>
+                    </div>
+                    {% else %}
+                        {{ field|add_class:"appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-600 placeholder-gray-400 text-white bg-gray-700 focus:outline-none focus:ring-silver focus:border-silver focus:z-10 sm:text-sm transition duration-300" }}
+                    {% endif %}
                     {% if field.errors %}
-                    <p class="text-red-400 text-sm mt-2">{{ field.errors.0 }}</p>
+                        <p class="text-red-400 text-sm mt-2">{{ field.errors|first }}</p>
                     {% endif %}
                 </div>
                 {% endfor %}
@@ -45,4 +68,30 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#id_password');
+    const eyeOpen = document.querySelector('#eye-open');
+    const eyeClosed = document.querySelector('#eye-closed');
+
+    if (togglePassword && password) {
+        togglePassword.addEventListener('click', function (e) {
+            // toggle the type attribute
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            
+            // toggle the eye icon
+            if (type === 'password') {
+                eyeOpen.classList.remove('hidden');
+                eyeClosed.classList.add('hidden');
+            } else {
+                eyeOpen.classList.add('hidden');
+                eyeClosed.classList.remove('hidden');
+            }
+        });
+    }
+});
+</script>
 {% endblock %}

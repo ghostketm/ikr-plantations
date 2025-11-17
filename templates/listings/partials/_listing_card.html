@@ -5,7 +5,7 @@
     <a href="{% url 'listing_detail' listing.slug %}" class="block h-full">
         <div class="relative">
             {% with listing.images.all|first as first_image %}
-                <img src="{% if first_image %}{{ first_image.image.url }}{% else %}{% static 'images/placeholder.jpg' %}{% endif %}" alt="{{ listing.title }}" class="w-full h-56 object-cover">
+                <img src="{% if first_image %}{{ first_image.image.url }}{% else %}{% static 'images/placeholder.jpg' %}{% endif %}" alt="{{ listing.title }}" class="w-full h-56 object-cover" loading="lazy">
             {% endwith %}
         </div>
         <div class="p-4 flex flex-col flex-grow">

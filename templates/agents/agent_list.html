@@ -69,7 +69,7 @@
                 <div class="group relative flex flex-col bg-primary-800 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-silver/20 hover:-translate-y-1">
                     <a href="{% url 'agents:agent_detail' agent.id %}" class="flex flex-col flex-grow h-full">
                         <div class="relative">
-                            <img src="{% if agent.user.profile.avatar %}{{ agent.user.profile.avatar.url }}{% else %}{% static 'images/avatar-placeholder.jpg' %}{% endif %}" alt="{{ agent.user.get_full_name }}" class="w-full h-56 object-cover">
+                            <img src="{% if agent.user.profile.avatar %}{{ agent.user.profile.avatar.url }}{% else %}{% static 'images/avatar-placeholder.jpg' %}{% endif %}" alt="{{ agent.user.get_full_name }}" class="w-full h-56 object-cover" loading="lazy">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                             <div class="absolute bottom-0 left-0 p-4">
                                 <h3 class="text-xl font-bold text-white truncate">{{ agent.user.get_full_name }}</h3>

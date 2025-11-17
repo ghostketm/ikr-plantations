@@ -8,7 +8,7 @@
 <div class="container mx-auto px-4 py-8">
     <!-- Agent Header -->
     <div class="bg-primary-800 rounded-lg shadow-lg p-8 mb-8 flex flex-col md:flex-row items-center border border-silver/20">
-        <img src="{% if agent.user.profile.avatar %}{{ agent.user.profile.avatar.url }}{% else %}{% static 'images/avatar-placeholder.jpg' %}{% endif %}" alt="{{ agent.user.get_full_name }}" class="w-32 h-32 rounded-full object-cover border-4 border-primary-600 mb-4 md:mb-0 md:mr-8">
+        <img src="{% if agent.user.profile.avatar %}{{ agent.user.profile.avatar.url }}{% else %}{% static 'images/avatar-placeholder.jpg' %}{% endif %}" alt="{{ agent.user.get_full_name }}" class="w-32 h-32 rounded-full object-cover border-4 border-primary-600 mb-4 md:mb-0 md:mr-8" loading="lazy">
         <div class="text-center md:text-left">
             <div class="flex items-center justify-center md:justify-start gap-x-3 mb-1">
                 <h1 class="text-3xl font-bold text-white">{{ agent.user.get_full_name }}</h1>
