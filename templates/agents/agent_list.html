@@ -72,13 +72,13 @@
                             <img src="{% if agent.user.profile.avatar %}{{ agent.user.profile.avatar.url }}{% else %}{% static 'images/avatar-placeholder.jpg' %}{% endif %}" alt="{{ agent.user.get_full_name }}" class="w-full h-56 object-cover" loading="lazy">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                             <div class="absolute bottom-0 left-0 p-4">
-                                <h3 class="text-xl font-bold text-white truncate">{{ agent.user.get_full_name }}</h3>
-                                <p class="text-sm text-gray-300 truncate">{{ agent.agency_name }}</p>
+                                <h3 class="text-xl font-bold text-white break-words">{{ agent.user.get_full_name }}</h3>
+                                <p class="text-sm text-gray-300 break-words">{{ agent.agency_name }}</p>
                             </div>
                         </div>
                         <div class="p-4 flex flex-col flex-grow">
                             <div class="flex-grow">
-                                <div class="flex justify-between items-center text-sm text-gray-400 gap-2">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center text-sm text-gray-400 gap-2 sm:gap-0">
                                     <span class="flex items-center" title="Rating"><i class="fas fa-star text-yellow-400 mr-1"></i> {{ agent.rating|floatformat:1 }}</span>
                                     <span title="Years of Experience">{{ agent.years_of_experience }} years exp.</span>
                                     <span title="Total Listings">{{ agent.total_listings|default:0 }} listings</span>

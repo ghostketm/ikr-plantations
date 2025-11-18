@@ -9,11 +9,11 @@
             {% endwith %}
         </div>
         <div class="p-4 flex flex-col flex-grow">
-            <h3 class="text-xl font-bold text-white truncate group-hover:text-silver transition-colors">{{ listing.title }}</h3>
+            <h3 class="text-xl font-bold text-white break-words group-hover:text-silver transition-colors">{{ listing.title }}</h3>
             <p class="text-lg font-semibold text-silver mb-2">${{ listing.price|intcomma }}</p>
-            <p class="text-sm text-gray-400 truncate mb-4"><i class="fas fa-map-marker-alt mr-1"></i>{{ listing.location }}</p>
-            
-            <div class="flex-grow flex justify-between items-center text-sm text-gray-300 border-t border-gray-700 pt-4">
+            <p class="text-sm text-gray-400 break-words mb-4"><i class="fas fa-map-marker-alt mr-1"></i>{{ listing.location }}</p>
+
+            <div class="flex-grow flex flex-col sm:flex-row justify-between items-start sm:items-center text-sm text-gray-300 border-t border-gray-700 pt-4 gap-2 sm:gap-0">
                 <span title="Bedrooms"><i class="fas fa-bed mr-1 text-primary-400"></i> {{ listing.bedrooms|default:'N/A' }}</span>
                 <span title="Bathrooms"><i class="fas fa-bath mr-1 text-primary-400"></i> {{ listing.bathrooms|default:'N/A' }}</span>
                 <span title="Square Feet"><i class="fas fa-ruler-combined mr-1 text-primary-400"></i> {{ listing.square_feet|intcomma|default:'N/A' }} sqft</span>

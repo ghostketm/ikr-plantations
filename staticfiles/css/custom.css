@@ -1,0 +1,22 @@
+/*
+ * ===================================================================
+ * Custom Styles for Real Estate Project
+ * ===================================================================
+ */
+
+/*
+ * Fix for text overflowing in Bootstrap cards, especially on mobile.
+ * This applies word wrapping to card titles, subtitles, and text,
+ * preventing long, unbreakable strings from breaking the layout.
+ */
+.card .card-title,
+.card .card-subtitle,
+.card .card-text {
+  word-wrap: break-word; /* Legacy property for older browsers */
+  overflow-wrap: break-word; /* Standard property */
+
+  /* Optional: Adds hyphens when words are broken for better readability */
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
