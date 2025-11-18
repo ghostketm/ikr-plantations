@@ -74,8 +74,9 @@ def listing_create(request):
 
             # Handle image uploads (support multiple files)
             images = request.FILES.getlist('images')
-            for idx, image in enumerate(images):
-                ListingImage.objects.create(listing=listing, image=image, is_main=(idx == 0))
+            if images:
+                for idx, image in enumerate(images):
+                    ListingImage.objects.create(listing=listing, image=image, is_main=(idx == 0))
 
             messages.success(request, 'Listing created successfully.')
             return redirect('listing_detail', slug=listing.slug)

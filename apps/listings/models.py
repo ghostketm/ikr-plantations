@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from decimal import Decimal
 from apps.agents.models import Agent # Assuming Agent model is in apps.agents
+from cloudinary.models import CloudinaryField
 
 User = get_user_model()
 
@@ -60,7 +61,7 @@ class Amenity(models.Model):
 
 class ListingImage(models.Model):
     listing = models.ForeignKey('Listing', on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to='listings/')
+    image = CloudinaryField('image', folder='listings', resource_type='image')
     alt_text = models.CharField(max_length=255, blank=True)
     is_main = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -12,6 +12,10 @@ class ListingForm(forms.ModelForm):
         required=False,
         help_text='Upload images for the listing (you can select multiple files)'
     )
+    # Hidden field to track which images to delete
+    images_to_delete = forms.CharField(
+        widget=forms.HiddenInput(), required=False
+    )
     property_type_obj = forms.ModelChoiceField(
         queryset=PropertyType.objects.all(),
         required=False,
