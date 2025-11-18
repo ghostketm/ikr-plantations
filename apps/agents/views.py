@@ -37,7 +37,7 @@ def create_agent(request):
     return render(request, 'agents/create_agent.html', {'form': form})
 
 def agent_list(request):
-    agents = Agent.objects.all().order_by('verification_status', '-rating')
+    agents = Agent.objects.filter(verification_status='verified').order_by('-rating')
     filter_form = AgentFilter(request.GET, queryset=agents)
     agents = filter_form.qs
 
