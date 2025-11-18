@@ -51,26 +51,11 @@ STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files - Cloudinary configuration
-CLOUDINARY_URL = config('CLOUDINARY_URL', default=None)
-
-if CLOUDINARY_URL:
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-    # The MEDIA_URL is not strictly necessary as django-cloudinary-storage
-    # generates full URLs, but it's good practice to have it for consistency.
-    # We can extract the cloud name from the URL.
-    # e.g., cloudinary://key:secret@cloud_name
-    try:
-        cloud_name = CLOUDINARY_URL.split('@')[-1]
-        MEDIA_URL = f'https://res.cloudinary.com/{cloud_name}/'
-    except IndexError:
-        # Fallback if the URL format is unexpected
-        MEDIA_URL = '/media/'
-else:
-    # Fallback to local media storage if Cloudinary not configured
-    # WARNING: Local storage is ephemeral on Render and will be lost on redeploy
-    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = BASE_DIR / 'media'
+# In production, we exclusively use Cloudinary for media files.
+# The CLOUDINARY_URL environment variable must be set.
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+MEDIA_URL = '/media/' # This is a placeholder; cloudinary_storage generates full URLs.
+MEDIA_ROOT = BASE_DIR / 'media' # Needed for local dev, but not used by Cloudinary for storage.
 
 # Email
 EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')

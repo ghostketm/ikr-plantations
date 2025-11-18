@@ -68,6 +68,20 @@ class ListingImage(models.Model):
     def __str__(self):
         return f"Image for {self.listing.title}"
 
+    def get_image_url(self):
+        """
+        Return the image URL.
+        - If the image file exists, it returns the full URL (local or Cloudinary).
+        - If the image file is missing, it returns an empty string.
+        This prevents broken image links and allows templates to handle fallbacks.
+        """
+        if self.image and hasattr(self.image, 'url'):
+            try:
+                return self.image.url
+            except (ValueError, FileNotFoundError):
+                pass  # The file is missing on storage
+        return ""
+
 class Listing(models.Model):
     STATUS_CHOICES = (
         ('available', 'Available'),
